@@ -7,6 +7,7 @@
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.17931)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)
+[![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplex-ai-inc.github.io/LiteResearcher/cases/)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-3776ab?logo=python&logoColor=white)
 
 **If you like our project, please give us a star ⭐ on GitHub for the latest update.**
@@ -45,6 +46,14 @@ Three pillars enable low-cost, scalable Agentic RL:
 1. **Co-construct Training Data & Corpus** — Scale up information sources with a simple-but-effective synthesis pipeline, then co-evolve training QA pairs and the local webpage corpus.
 2. **Stable Local Tool Environment** — Build local search engine (Milvus + BGE-M3) and local browse tool (PostgreSQL) from ~32M real webpages, enabling the RL stage to run fully locally with no API consumption, 10–46× speedup, and zero marginal tool cost.
 3. **Difficulty-Aware Curriculum RL** — Multi-stage curriculum with on-policy GRPO, filtering tasks by pass@8 difficulty to sustain monotonic improvement.
+
+## Trajectory Cases
+
+We release 15 hand-audited rollout trajectories from LiteResearcher-4B across 8 deep-research benchmarks (GAIA, Xbench-DS, Frame, HLE, Seal-0, WebwalkerQA, BrowseComp, BrowseComp-zh). Each case is judged `correct`, leak-free, and reviewed by 4 independent Opus-4.7 (1M context) subagents to verify the answer is derived from cited evidence (no fabrication, no hedged guess).
+
+**🔎 Live viewer:** https://simplex-ai-inc.github.io/LiteResearcher/cases/
+
+Each trajectory renders 40–170 steps showing the model's `think` → `search` → `visit` → `answer` chain, with tool queries, visited URLs, and tool responses inline. Source data lives under [`docs/cases/`](docs/cases/).
 
 ## Repository Structure
 

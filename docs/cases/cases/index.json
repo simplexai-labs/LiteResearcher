@@ -1,0 +1,235 @@
+{
+  "benchmarks": [
+    {
+      "benchmark": "Frame",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/Frame_pass@1",
+      "manual_picks": [
+        680,
+        821
+      ],
+      "missing_picks": [],
+      "n_total_correct": 682,
+      "selected": 2,
+      "file": "Frame.json",
+      "cases": [
+        {
+          "id": 680,
+          "score": 4.6,
+          "n_search": 36,
+          "n_visit": 31,
+          "tongyi_correct": null,
+          "question": "What is the other name, beginning and ending with the letter \"d\", for the substance, often deployed by means of artillery shells, which was also instrumental in"
+        },
+        {
+          "id": 821,
+          "score": 5.1,
+          "n_search": 18,
+          "n_visit": 34,
+          "tongyi_correct": null,
+          "question": "This singer represented Sweden in Eurovision four years before the Sweden Democrats entered Parliament for the first time. What astrological sign was the real p"
+        }
+      ]
+    },
+    {
+      "benchmark": "GAIA",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/GAIA_new_new_pass@1",
+      "manual_picks": [
+        56,
+        2
+      ],
+      "missing_picks": [],
+      "n_total_correct": 86,
+      "selected": 2,
+      "file": "GAIA.json",
+      "cases": [
+        {
+          "id": 56,
+          "score": 7.95,
+          "n_search": 7,
+          "n_visit": 47,
+          "tongyi_correct": true,
+          "question": "As of the 2020 census, what was the population difference between the largest county seat and smallest county seat, by land area of the county seat, in Washingt"
+        },
+        {
+          "id": 2,
+          "score": 9.1,
+          "n_search": 8,
+          "n_visit": 8,
+          "tongyi_correct": true,
+          "question": "If we assume all articles published by Nature in 2020 (articles, only, not book reviews/columns, etc) relied on statistical significance to justify their findin"
+        }
+      ]
+    },
+    {
+      "benchmark": "HLE",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/HLE_new_pass@1",
+      "manual_picks": [
+        29,
+        315
+      ],
+      "missing_picks": [],
+      "n_total_correct": 72,
+      "selected": 2,
+      "file": "HLE.json",
+      "cases": [
+        {
+          "id": 29,
+          "score": 5.1,
+          "n_search": 41,
+          "n_visit": 59,
+          "tongyi_correct": null,
+          "question": "What is the correct roman numeral for measure 30 of Beethoven \"Pathetique\" sonata, first movement?"
+        },
+        {
+          "id": 315,
+          "score": 7.6,
+          "n_search": 11,
+          "n_visit": 8,
+          "tongyi_correct": null,
+          "question": "Consider an equilateral triangle ABC  which the squares are constructed in the form of a staircase.\n- The first step of the staircase consists of a square with "
+        }
+      ]
+    },
+    {
+      "benchmark": "Seal0",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/Seal0_pass@4",
+      "manual_picks": [
+        110,
+        100
+      ],
+      "missing_picks": [],
+      "n_total_correct": 60,
+      "selected": 2,
+      "file": "Seal0.json",
+      "cases": [
+        {
+          "id": 110,
+          "score": 5.1,
+          "n_search": 26,
+          "n_visit": 20,
+          "tongyi_correct": null,
+          "question": "Who was the purchaser in the largest confirmed merger or acquisition that ultimately failed to complete?"
+        },
+        {
+          "id": 100,
+          "score": 4.3,
+          "n_search": 15,
+          "n_visit": 29,
+          "tongyi_correct": null,
+          "question": "How many former US presidents ran again for president after losing a general election and lost on their second attempt?"
+        }
+      ]
+    },
+    {
+      "benchmark": "WebwalkerQA",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/WebwalkerQA_new_new_pass@1",
+      "manual_picks": [
+        158,
+        514
+      ],
+      "missing_picks": [],
+      "n_total_correct": 494,
+      "selected": 2,
+      "file": "WebwalkerQA.json",
+      "cases": [
+        {
+          "id": 158,
+          "score": 5.1,
+          "n_search": 15,
+          "n_visit": 36,
+          "tongyi_correct": null,
+          "question": "谁是山东财经大学计算机与人工智能学院特聘教授中，最早获得国家级荣誉的人？"
+        },
+        {
+          "id": 514,
+          "score": 5.6,
+          "n_search": 11,
+          "n_visit": 30,
+          "tongyi_correct": null,
+          "question": "Was David Notkin a member of the program committee for ICSE 2002 where he gave the keynote speech on 'ArchJava: Connecting Software Architecture to Implementati"
+        }
+      ]
+    },
+    {
+      "benchmark": "Xbench",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/Xbench_pass@4",
+      "manual_picks": [
+        92,
+        63
+      ],
+      "missing_picks": [],
+      "n_total_correct": 90,
+      "selected": 2,
+      "file": "Xbench.json",
+      "cases": [
+        {
+          "id": 92,
+          "score": 5.6,
+          "n_search": 12,
+          "n_visit": 26,
+          "tongyi_correct": true,
+          "question": "在2020年夏季奥运会中有一对参与同一届奥运国家游泳队的姐妹，请问这对姐妹的姐姐和妹妹年龄差多少周？（精确到个位）"
+        },
+        {
+          "id": 63,
+          "score": 6.5,
+          "n_search": 8,
+          "n_visit": 17,
+          "tongyi_correct": true,
+          "question": "语句\"如山间清爽的风 如古城温暖的光\"所出自的小说，被拍成电影，其中电影上映时间距离中国的第一枚奥运会赛艇金牌已经过去了多少天？"
+        }
+      ]
+    },
+    {
+      "benchmark": "browsecomp-zh",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420/browsecomp-zh_pass@2",
+      "manual_picks": [
+        13,
+        53
+      ],
+      "missing_picks": [],
+      "n_total_correct": 108,
+      "selected": 2,
+      "file": "browsecomp-zh.json",
+      "cases": [
+        {
+          "id": 13,
+          "score": 6.2,
+          "n_search": 17,
+          "n_visit": 11,
+          "tongyi_correct": null,
+          "question": "发表于 2023-2025 期间的一篇论文，探讨了父母简单粗暴的抚养方式对青少年心理的影响。由5 位作者署名，其中第一作者和第二作者分别来自于两个不同大学的马克思主义学院，该论文的标题是什么？"
+        },
+        {
+          "id": 53,
+          "score": 5.6,
+          "n_search": 20,
+          "n_visit": 25,
+          "tongyi_correct": null,
+          "question": "有这样一部电影，在导演32岁时上映，这位导演享年72岁，电影主要地点发生在监狱中，请问该电影的名字是什么？"
+        }
+      ]
+    },
+    {
+      "benchmark": "browsecomp",
+      "source_folder": "/share/project/wanli/Search_Agent/DeepResearch/bench_results/qwen3-4B-RL/stage2_onpolicy_new_ckpt220_bs128_all_rag-temp_1_length_48k/global_step_420_old/browsecomp_400_pass@1",
+      "manual_picks": [
+        844
+      ],
+      "missing_picks": [],
+      "n_total_correct": 81,
+      "selected": 1,
+      "file": "browsecomp.json",
+      "cases": [
+        {
+          "id": 844,
+          "score": 5.1,
+          "n_search": 35,
+          "n_visit": 47,
+          "tongyi_correct": null,
+          "question": "As of December 31, 2023, name the author who was a university instructor, whose books have been translated into twenty-plus languages, who has worked as an edit"
+        }
+      ]
+    }
+  ]
+}
