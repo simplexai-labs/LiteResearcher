@@ -23,6 +23,11 @@
 
 **LiteResearcher** makes Agentic RL scalable by replacing live-web interaction during RL with a stable local search/browse environment that mirrors real-world search dynamics while eliminating per-call API cost.
 
+<div align="center">
+<img src="docs/static/compare.png" width="100%">
+<p><em>Left: Xbench-DeepSearch accuracy vs. model size — our 4B model reaches 78.0%, matching/surpassing 100×+ larger systems. Right: Average rollout time and cost per turn — LiteResearcher is the fastest and cheapest.</em></p>
+</div>
+
 ## Results
 
 <div align="center">
