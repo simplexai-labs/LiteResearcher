@@ -24,6 +24,97 @@ function escapeHTML(s) {
     .replaceAll("'", "&#39;");
 }
 
+function renderMarkdown(md) {
+  if (md === null || md === undefined) return "";
+  let text = String(md).replace(/\r\n/g, "\n");
+
+  // Protect fenced code blocks first, then render other markdown tokens.
+  const codeBlocks = [];
+  text = text.replace(/```([^\n`]*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    const idx = codeBlocks.push({ lang: (lang || "").trim(), code: escapeHTML(code) }) - 1;
+    return `@@CODEBLOCK_${idx}@@`;
+  });
+
+  let html = escapeHTML(text);
+
+  html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+
+  const lines = html.split("\n");
+  const out = [];
+  let inUl = false;
+  let inOl = false;
+
+  function closeLists() {
+    if (inUl) {
+      out.push("</ul>");
+      inUl = false;
+    }
+    if (inOl) {
+      out.push("</ol>");
+      inOl = false;
+    }
+  }
+
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t) {
+      closeLists();
+      continue;
+    }
+
+    const h = t.match(/^(#{1,3})\s+(.+)$/);
+    if (h) {
+      closeLists();
+      const level = h[1].length;
+      out.push(`<h${level}>${h[2]}</h${level}>`);
+      continue;
+    }
+
+    const ul = t.match(/^[-*]\s+(.+)$/);
+    if (ul) {
+      if (inOl) {
+        out.push("</ol>");
+        inOl = false;
+      }
+      if (!inUl) {
+        out.push("<ul>");
+        inUl = true;
+      }
+      out.push(`<li>${ul[1]}</li>`);
+      continue;
+    }
+
+    const ol = t.match(/^\d+\.\s+(.+)$/);
+    if (ol) {
+      if (inUl) {
+        out.push("</ul>");
+        inUl = false;
+      }
+      if (!inOl) {
+        out.push("<ol>");
+        inOl = true;
+      }
+      out.push(`<li>${ol[1]}</li>`);
+      continue;
+    }
+
+    closeLists();
+    out.push(`<p>${t}</p>`);
+  }
+  closeLists();
+
+  let rendered = out.join("\n");
+  rendered = rendered.replace(/@@CODEBLOCK_(\d+)@@/g, (_, i) => {
+    const b = codeBlocks[Number(i)];
+    if (!b) return "";
+    return `<pre><code>${b.code}</code></pre>`;
+  });
+  return rendered;
+}
+
 function shortHost(url) {
   try {
     const u = new URL(url);
@@ -117,7 +208,7 @@ function renderCase(c) {
   const stepsHTML = c.steps.map((s, idx) => renderStep(s, idx)).join("");
 
   const finalAnswer = c.final_answer
-    ? `<div class="answer-box"><div class="label">最终答案 (final_answer)</div>${escapeHTML(c.final_answer)}</div>`
+    ? `<div class="answer-box"><div class="label">最终答案 (final_answer)</div><div class="md">${renderMarkdown(c.final_answer)}</div></div>`
     : "";
 
   MAIN_EL.innerHTML = `
@@ -160,7 +251,7 @@ function renderStep(s, idx) {
       : "";
     const calls = (s.tool_calls || []).map(tc => renderToolCall(tc)).join("");
     const answer = s.answer
-      ? `<div class="answer-box"><div class="label">&lt;answer&gt;</div>${escapeHTML(s.answer)}</div>`
+      ? `<div class="answer-box"><div class="label">&lt;answer&gt;</div><div class="md">${renderMarkdown(s.answer)}</div></div>`
       : "";
     return `
       <div class="step assistant">
