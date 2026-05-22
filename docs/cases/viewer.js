@@ -39,8 +39,10 @@ function renderMarkdown(md) {
 
   html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+  html = html.replace(/\*\*([^*\n]+?)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g, "$1<em>$2</em>");
+  // Strip any unmatched bold markers so they don't show up as literal **.
+  html = html.replace(/\*\*+/g, "");
 
   const lines = html.split("\n");
   const out = [];
@@ -205,11 +207,23 @@ function renderCase(c) {
     c.judge_correct ? `<span class="tag ok">✓ correct</span>` : `<span class="tag bad">✗ wrong</span>`,
   ].filter(Boolean).join(" ");
 
+  // If the last assistant step's answer matches c.final_answer, don't render
+  // the standalone final-answer block (avoid showing the same text twice).
+  let lastAssistantAnswer = "";
+  for (let i = c.steps.length - 1; i >= 0; i--) {
+    const st = c.steps[i];
+    if (st && st.type === "assistant" && st.answer) {
+      lastAssistantAnswer = st.answer;
+      break;
+    }
+  }
+  const normalize = (s) => String(s || "").replace(/\s+/g, " ").trim();
   const stepsHTML = c.steps.map((s, idx) => renderStep(s, idx)).join("");
 
-  const finalAnswer = c.final_answer
-    ? `<div class="answer-box"><div class="label">最终答案 (final_answer)</div><div class="md">${renderMarkdown(c.final_answer)}</div></div>`
-    : "";
+  const finalAnswer =
+    c.final_answer && normalize(c.final_answer) !== normalize(lastAssistantAnswer)
+      ? `<div class="answer-box"><div class="label">最终答案 (final_answer)</div><div class="md">${renderMarkdown(c.final_answer)}</div></div>`
+      : "";
 
   MAIN_EL.innerHTML = `
     <div class="case-header">
