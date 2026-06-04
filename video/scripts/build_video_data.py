@@ -25,7 +25,7 @@ PICKS = [("GAIA", 56), ("Xbench", None), ("WebwalkerQA", None)]
 CASES_DIR = "/Users/wanli/Downloads/Literesearcher_release/docs/cases/cases"
 OUT = "/Users/wanli/Downloads/Literesearcher_release/video/src/data/cases.json"
 
-MAX_TURNS = 4  # 4 think→tool turns fits comfortably in ~40s
+MAX_TURNS = 999  # keep every turn
 
 
 def host(u: str) -> str:
@@ -48,45 +48,64 @@ def shorten(s: str, n: int) -> str:
 def first_para(s: str) -> str:
     if not s:
         return ""
-    # take first non-trivial sentence/paragraph
     s = s.strip()
-    parts = re.split(r"\n\n|。\s*|\.\s+", s)
+    parts = re.split(r"\n\n+", s)
     parts = [p.strip() for p in parts if p.strip() and len(p.strip()) > 15]
     return parts[0] if parts else s
+
+
+def think_excerpt(s: str) -> str:
+    """Keep the entire think text verbatim."""
+    return (s or "").strip()
 
 
 def tool_summary(tc: dict):
     name = tc.get("name")
     if name == "search":
-        q = (tc.get("queries") or [""])[0]
+        queries = list(tc.get("queries") or [""])
         return {
             "name": "search",
-            "args": {"query": shorten(q, 80)},
-            "args_str": f'query="{shorten(q, 80)}"',
+            "args": {"queries": queries},
+            "args_str": "",
+            "queries": queries,
         }
     if name == "visit":
-        urls = tc.get("urls") or [""]
-        u = urls[0]
+        urls = list(tc.get("urls") or [""])
         g = tc.get("goal") or ""
         return {
             "name": "visit",
-            "args": {"url": u, "domain": host(u), "goal": shorten(g, 120)},
-            "args_str": f'url="{shorten(u, 80)}"',
+            "args": {"urls": urls, "goal": shorten(g, 200)},
+            "args_str": "",
+            "urls": urls,
+            "goal": shorten(g, 200),
         }
     return {"name": name or "tool", "args": {}, "args_str": ""}
 
 
-def extract_result_excerpt(content: str, max_chars: int = 220) -> str:
+def md_truncate(s: str, n: int) -> str:
+    """Truncate markdown text without flattening paragraph breaks."""
+    if not s:
+        return ""
+    s = s.strip()
+    # collapse runs of >2 newlines, runs of >1 inline whitespace, but KEEP \n\n
+    s = re.sub(r"\n{3,}", "\n\n", s)
+    s = re.sub(r"[ \t]+", " ", s)
+    if len(s) <= n:
+        return s
+    # cut at a newline if possible
+    snippet = s[:n]
+    cut = snippet.rfind("\n")
+    if cut > n - 200:
+        snippet = snippet[:cut]
+    return snippet.rstrip(" ,.，。、\n") + "…"
+
+
+def extract_result_excerpt(content: str, max_chars: int = 1400) -> str:
     if not content:
         return ""
-    # strip tool_response wrapper and code fences
     c = content
     c = re.sub(r"</?tool_response[^>]*>", "", c).strip()
-    # remove markdown link syntax (keep visible text)
-    c = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", c)
-    # collapse whitespace
-    c = re.sub(r"\s+", " ", c).strip()
-    return shorten(c, max_chars)
+    return md_truncate(c, max_chars)
 
 
 def build_turns(steps):
@@ -97,7 +116,7 @@ def build_turns(steps):
         if s.get("type") != "assistant":
             i += 1
             continue
-        think = first_para(s.get("think") or "")
+        think = think_excerpt(s.get("think") or "")
         tcs = s.get("tool_calls") or []
         tool = None
         result = ""
@@ -110,7 +129,7 @@ def build_turns(steps):
             if j < len(steps):
                 result = extract_result_excerpt(steps[j].get("content") or "")
         turns.append({
-            "think": shorten(think, 220),
+            "think": think,
             "tool": ({**tool, "result": result} if tool else None),
         })
         i += 1
@@ -118,21 +137,15 @@ def build_turns(steps):
 
 
 def pick_turns(turns, n):
-    """Pick n diverse turns: keep first 2 (initial reasoning + first lookup),
-    then a couple later visits, then the very last think."""
+    """Keep a contiguous sequence covering the actual research arc.
+    If too many, prefer first N-1 turns (initial reasoning + lookups) plus the last
+    turn (final convergence) so the viewer sees the open-then-close shape.
+    """
     if len(turns) <= n:
         return turns
-    head = turns[:2]
-    mid = [t for t in turns[2:-1] if t["tool"] and t["tool"]["name"] == "visit"][:1]
+    head = turns[: n - 1]
     tail = turns[-1:]
-    out, seen = [], set()
-    for t in head + mid + tail:
-        key = (t["think"], json.dumps(t["tool"], ensure_ascii=False) if t["tool"] else "")
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append(t)
-    return out[:n]
+    return head + tail
 
 
 def main():
@@ -146,7 +159,7 @@ def main():
         out_cases.append({
             "benchmark": bench,
             "id": c["id"],
-            "question": shorten(c.get("question", ""), 240),
+            "question": shorten(c.get("question", ""), 320),
             "reference_answer": (c.get("reference_answer") or "").strip(),
             "final_answer": (c.get("final_answer") or "").strip(),
             "judge_correct": c.get("judge_correct", True),
