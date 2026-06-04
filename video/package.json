@@ -1,0 +1,20 @@
+{
+  "name": "literesearcher-video",
+  "version": "1.0.0",
+  "scripts": {
+    "render": "remotion render",
+    "studio": "remotion studio"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.395",
+    "@remotion/bundler": "4.0.395",
+    "@remotion/renderer": "4.0.395",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.395"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "typescript": "5.7.3"
+  }
+}

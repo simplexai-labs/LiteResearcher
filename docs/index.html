@@ -5,353 +5,772 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Noto Sans', sans-serif;
-      color: #333;
-      background: #fff;
-      line-height: 1.7;
+    :root {
+      --ink: #0a0a0a;
+      --text: #3f3f46;
+      --muted: #737373;
+      --faint: #e7e5e4;
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --accent: #f59e0b;       /* amber, matches Simplex yellow drop */
+      --accent-deep: #b45309;
+      --accent-soft: #fef3c7;
+      --line: #e7e5e4;
+      --card-bg: #ffffff;
+      --grad-soft: linear-gradient(180deg, #fafaf9 0%, #f5f5f4 100%);
     }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: "ss01", "cv11";
+    }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    /* Sticky nav */
+    .topnav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250,250,249,.78);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topnav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .topnav-brand {
+      display: flex; align-items: center;
+      text-decoration: none;
+    }
+    .brand-logos {
+      display: inline-flex; align-items: center; gap: 14px;
+    }
+    .brand-logo-zju { height: 26px; width: auto; display: block; }
+    .brand-divider {
+      width: 1px; height: 18px; background: #d4d4d4; display: inline-block;
+    }
+    .brand-simplex {
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+    .topnav-links {
+      display: flex; gap: 2px; flex-wrap: wrap;
+    }
+    .topnav-links a {
+      font-size: 0.85rem; color: var(--muted); text-decoration: none;
+      padding: 7px 14px; border-radius: 999px;
+      font-weight: 500;
+      transition: all .15s ease;
+    }
+    .topnav-links a:hover { color: var(--ink); background: #f5f5f4; }
+    @media (max-width: 720px) {
+      .brand-logo-zju { height: 24px; }
+      .brand-logo-simplex { height: 20px; }
+      .topnav-links a { padding: 6px 10px; font-size: 0.8rem; }
+    }
 
     /* Hero */
     .hero {
       text-align: center;
-      padding: 60px 0 30px;
+      padding: 84px 0 56px;
+      position: relative;
+    }
+    .hero-logos {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+    .hero-logos a {
+      display: inline-flex; align-items: center;
+      transition: opacity .15s ease;
+    }
+    .hero-logos a:hover { opacity: .7; }
+    .hero-logos img {
+      height: 44px; width: auto; display: block;
+    }
+    .hero-logos img.simplex-wordmark {
+      height: 56px;
+    }
+    .hero-logos .hero-logo-x {
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 28px;
+      box-shadow: 0 1px 0 rgba(15,15,15,.02);
+    }
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px; border-radius: 999px; background: var(--accent);
+      display: inline-block;
     }
     .hero h1 {
-      font-family: 'Noto Serif', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
+      font-family: inherit;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      font-weight: 500;
       line-height: 1.3;
       margin-bottom: 24px;
-      color: #1a1a1a;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 .grad-text {
+      color: var(--ink);
+      background: none;
+      -webkit-text-fill-color: currentColor;
+    }
+    .hero h1 .punct {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .hero .lede {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.55;
     }
     .authors {
-      font-size: 1.05rem;
-      margin-bottom: 8px;
-      color: #444;
-    }
-    .authors a { color: #444; text-decoration: none; }
-    .authors a:hover { text-decoration: underline; }
-    .equal { font-size: 0.8rem; vertical-align: super; color: #888; }
-    .corresponding { font-size: 0.8rem; vertical-align: super; color: #888; }
-    .affiliations {
       font-size: 0.92rem;
-      color: #666;
-      margin-bottom: 24px;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      max-width: 880px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.7;
     }
-    .aff-note {
-      font-size: 0.85rem;
-      color: #888;
-      margin-bottom: 20px;
+    .authors a { color: inherit; text-decoration: none; }
+    .authors a:hover { color: var(--ink); }
+    .equal, .corresponding { font-size: 0.7rem; vertical-align: super; color: var(--muted); }
+    .affiliations {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: inline-flex; flex-wrap: wrap; justify-content: center;
+      align-items: center; gap: 4px 12px;
     }
-    .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .affiliations .aff { display: inline-flex; align-items: center; }
+    .affiliations .sep { color: var(--faint); }
+    .aff-note { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; }
+
+    /* Buttons */
+    .buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      font-family: inherit;
+      letter-spacing: -0.005em;
     }
     .btn-primary {
-      background: #2563eb;
+      background: var(--ink);
       color: #fff;
     }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-outline {
-      border: 2px solid #d1d5db;
-      color: #374151;
-      background: #fff;
+    .btn-primary:hover {
+      background: #2a2a2a;
+      transform: translateY(-1px);
     }
-    .btn-outline:hover { border-color: #9ca3af; background: #f9fafb; }
-    .btn svg { width: 18px; height: 18px; }
+    .btn-outline {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: var(--panel);
+    }
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: var(--panel);
+      transform: translateY(-1px);
+    }
+    .lede strong { font-weight: 600; }
+    .btn svg { width: 15px; height: 15px; }
+    .brand-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--muted); background: #f5f5f4;
+      padding: 1px 6px; border-radius: 4px;
+      min-width: 22px; height: 18px;
+    }
 
-    /* Sections */
+    .sub-links {
+      display: flex; justify-content: center; gap: 32px;
+      flex-wrap: wrap; margin-top: 26px;
+    }
+    .sub-links a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color .15s ease;
+    }
+    .sub-links a:hover { color: var(--ink); }
+
+    /* Sections — no separator lines, big white space */
     section {
-      padding: 36px 0;
-      border-top: 1px solid #eee;
+      padding: 72px 0 56px;
+      border-top: none;
+    }
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: #a3a3a3;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 22px;
     }
     section h2 {
-      font-family: 'Noto Serif', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: #1a1a1a;
-    }
-    section p {
-      font-size: 1rem;
-      color: #444;
-      margin-bottom: 14px;
-    }
-
-    /* Highlights */
-    .highlights {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin: 20px 0;
-    }
-    .highlight-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-    }
-    .highlight-card .number {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #2563eb;
+      font-family: inherit;
+      font-size: clamp(2.1rem, 3.2vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: var(--ink);
+      letter-spacing: -0.025em;
       display: block;
     }
-    .highlight-card .label {
-      font-size: 0.88rem;
-      color: #64748b;
+    section h2::before { content: none; }
+    section h2 .punct { color: var(--accent); font-weight: 500; }
+    section p {
+      font-size: 1.02rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 760px;
+    }
+
+    /* Big-number stats (Lev8 hero strip) */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .stat-cell {
+      background: var(--panel);
+      padding: 28px 22px;
+      text-align: left;
+    }
+    .stat-cell .num {
+      font-size: clamp(2.4rem, 4.2vw, 3.2rem);
+      font-weight: 300;
+      color: var(--ink);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      display: block;
+      font-feature-settings: "tnum";
+    }
+    .stat-cell .num .punct { color: var(--accent); font-weight: 400; }
+    .stat-cell .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .stat-cell .detail {
+      font-size: 0.78rem;
+      color: var(--muted);
       margin-top: 4px;
+      opacity: .8;
+    }
+
+    /* Stat strip — borderless lev8 style */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      margin: 32px 0;
+    }
+    .highlight-card {
+      background: transparent;
+      padding: 8px 32px;
+      text-align: left;
+      position: relative;
+      overflow: visible;
+      transition: none;
+      border: none; border-radius: 0;
+      border-right: 1px solid var(--line);
+    }
+    .highlight-card:last-child { border-right: none; }
+    .highlight-card:first-child { padding-left: 0; }
+    .highlight-card::before { content: none; }
+    .highlight-card:hover {
+      transform: none; box-shadow: none; background: transparent;
+    }
+    .highlight-card .icon { display: none; }
+    .highlight-card .number {
+      font-family: inherit;
+      font-size: clamp(2.6rem, 4.6vw, 3.4rem);
+      font-weight: 600;
+      color: var(--ink);
+      -webkit-text-fill-color: currentColor;
+      background: none;
+      display: block;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-feature-settings: "tnum";
+    }
+    .highlight-card .label {
+      font-size: 0.85rem;
+      color: var(--ink);
+      margin-top: 16px;
+      font-weight: 500;
     }
     .highlight-card .detail {
-      font-size: 0.8rem;
-      color: #94a3b8;
-      margin-top: 2px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .stat-slash {
+      color: #d1d5db; font-weight: 300; padding: 0 .08em;
+    }
+    @media (max-width: 720px) {
+      .highlights { grid-template-columns: 1fr; gap: 24px; }
+      .highlight-card {
+        border-right: none; border-bottom: 1px solid var(--line);
+        padding: 0 0 20px;
+      }
+      .highlight-card:last-child { border-bottom: none; padding-bottom: 0; }
     }
 
     /* Figures */
     .figure {
-      margin: 24px 0;
+      margin: 32px 0;
       text-align: center;
     }
     .figure img {
       max-width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(15,15,15,.04);
     }
     .figure figcaption {
-      font-size: 0.88rem;
-      color: #666;
-      margin-top: 10px;
-      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 12px;
+      font-style: normal;
+      max-width: 720px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.5;
     }
 
     /* BibTeX */
     .bibtex-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 16px 20px;
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 14px;
+      padding: 18px 22px;
       overflow-x: auto;
       position: relative;
-      color: #334155;
+      color: #d4d4d8;
     }
     .bibtex-box pre {
       margin: 0;
-      font-family: 'Courier New', monospace;
+      font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
       font-size: 0.82rem;
-      line-height: 1.6;
+      line-height: 1.65;
       white-space: pre;
-      color: #334155;
+      color: #d4d4d8;
     }
     .copy-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #e2e8f0;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.78rem;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.74rem;
       cursor: pointer;
-      color: #475569;
+      color: #f4f4f5;
       z-index: 1;
+      font-weight: 500;
     }
-    .copy-btn:hover { background: #cbd5e1; }
+    .copy-btn:hover { background: rgba(255,255,255,.16); }
+
+    /* Trajectory intro */
+    .traj-intro { color: var(--muted); font-size: 0.98rem; margin-bottom: 22px; max-width: 760px; }
+    .traj-intro strong { color: var(--ink); font-weight: 600; }
+
+    /* Trajectory video player */
+    .traj-video-wrap {
+      margin: 8px 0 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(15,15,15,.04);
+    }
+    .traj-video-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .traj-tab {
+      border: none;
+      background: transparent;
+      padding: 14px 22px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      position: relative;
+      transition: all .15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.005em;
+    }
+    .traj-tab:hover { color: var(--ink); }
+    .traj-tab.active {
+      color: var(--ink);
+    }
+    .traj-tab.active::after {
+      content: "";
+      position: absolute;
+      left: 22px; right: 22px; bottom: -1px;
+      height: 2px;
+      background: var(--accent);
+    }
+    .traj-tab .dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 999px;
+      background: #d4d4d4;
+    }
+    .traj-tab.active .dot { background: var(--accent); }
+    .traj-video-stage {
+      position: relative;
+      background: var(--bg);
+      aspect-ratio: 16 / 9;
+    }
+    .traj-video-stage video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: var(--bg);
+    }
+    .traj-video-caption {
+      padding: 14px 22px 16px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: var(--panel);
+      border-top: 1px solid var(--line);
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .traj-video-caption strong { color: var(--ink); font-weight: 600; }
 
     /* Trajectory cards */
-    .traj-intro { color:#555; font-size:0.95rem; margin-bottom:18px; }
     .traj-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px;
+      gap: 12px;
       margin-top: 8px;
     }
     .traj-card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 16px 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px 14px;
       cursor: pointer;
       transition: all .15s ease;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       text-align: left;
-      min-height: 150px;
+      min-height: 158px;
     }
     .traj-card:hover {
-      border-color: #2563eb;
-      box-shadow: 0 4px 14px rgba(37,99,235,.10);
+      border-color: var(--ink);
+      box-shadow: 0 6px 20px rgba(15,15,15,.06);
       transform: translateY(-1px);
     }
     .traj-card .tc-top {
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .traj-card .tc-bench {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: .04em;
+      font-size: 0.68rem !important; font-weight: 600 !important; letter-spacing: .14em;
       text-transform: uppercase;
-      padding: 3px 8px; border-radius: 999px;
-      background: #eef2ff; color: #4338ca;
+      padding: 4px 10px; border-radius: 999px;
+      background: #f5f5f4 !important; color: var(--ink) !important;
+      border: 1px solid var(--line);
     }
-    .traj-card .tc-id { font-size: 0.72rem; color: #94a3b8; }
+    .traj-card .tc-id { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
     .traj-card .tc-q {
-      font-size: 0.9rem; color: #1f2937; line-height: 1.45;
+      font-size: 0.92rem; color: var(--ink); line-height: 1.5;
       display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
       overflow: hidden;
+      font-weight: 400;
     }
     .traj-card .tc-stats {
       display: flex; flex-wrap: wrap; gap: 6px;
-      font-size: 0.72rem; color: #64748b; margin-top: auto;
+      font-size: 0.72rem; color: var(--muted); margin-top: auto;
+      font-family: 'JetBrains Mono', monospace;
     }
     .traj-card .tc-stats .s {
-      background: #f1f5f9; padding: 2px 8px; border-radius: 6px;
+      background: var(--bg); padding: 3px 9px; border-radius: 6px;
+      display: inline-flex; align-items: center; gap: 5px;
     }
+    .traj-card .tc-stats .s svg { opacity: .55; }
 
     /* Modal */
     .traj-backdrop {
-      position: fixed; inset: 0; background: rgba(15,23,42,.55);
+      position: fixed; inset: 0; background: rgba(10,10,10,.55);
       display: none; align-items: center; justify-content: center;
       z-index: 1000; padding: 20px;
+      backdrop-filter: blur(4px);
     }
     .traj-backdrop.open { display: flex; }
     .traj-modal {
-      background: #fff; border-radius: 14px; max-width: 760px; width: 100%;
+      background: var(--panel); border-radius: 18px; max-width: 780px; width: 100%;
       max-height: 86vh; overflow: hidden;
       display: flex; flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      box-shadow: 0 24px 64px rgba(0,0,0,.28);
     }
     .traj-modal-head {
-      padding: 16px 20px; border-bottom: 1px solid #e2e8f0;
+      padding: 18px 22px; border-bottom: 1px solid var(--line);
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
     .traj-modal-head .tm-title {
-      font-family: 'Noto Serif', serif; font-size: 1.05rem; font-weight: 700; color: #1a1a1a;
+      font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--ink);
+      letter-spacing: -0.01em;
     }
     .traj-modal-close {
-      background: transparent; border: none; color: #64748b; font-size: 1.4rem;
-      cursor: pointer; line-height: 1; padding: 4px 8px; border-radius: 6px;
+      background: transparent; border: none; color: var(--muted); font-size: 1.5rem;
+      cursor: pointer; line-height: 1; padding: 4px 10px; border-radius: 8px;
     }
-    .traj-modal-close:hover { background: #f1f5f9; color: #1a1a1a; }
-    .traj-modal-body { padding: 18px 20px; overflow-y: auto; }
+    .traj-modal-close:hover { background: #f5f5f4; color: var(--ink); }
+    .traj-modal-body { padding: 20px 22px; overflow-y: auto; }
     .traj-modal-body h4 {
-      font-size: 0.72rem; text-transform: uppercase; letter-spacing: .06em;
-      color: #64748b; margin: 14px 0 6px;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: .14em;
+      color: var(--muted); margin: 16px 0 8px;
+      font-weight: 600;
     }
     .traj-modal-body h4:first-child { margin-top: 0; }
     .traj-modal-body .q-text {
-      font-size: 0.98rem; color: #1f2937; line-height: 1.6;
+      font-size: 1rem; color: var(--ink); line-height: 1.6;
     }
     .traj-modal-body .ans-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
     }
     @media (max-width: 600px) { .traj-modal-body .ans-grid { grid-template-columns: 1fr; } }
     .traj-modal-body .ans-cell {
-      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-      padding: 10px 12px; font-size: 0.9rem; line-height: 1.55; color: #334155;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+      padding: 12px 14px; font-size: 0.9rem; line-height: 1.55; color: var(--text);
     }
-    .traj-modal-body .ans-cell.final { background: #f5f3ff; border-color: #ddd6fe; color: #4c1d95; }
+    .traj-modal-body .ans-cell.final {
+      background: var(--accent-soft); border-color: #fcd34d; color: var(--accent-deep);
+    }
     .traj-modal-body .verdict {
-      font-size: 0.82rem; color: #475569; background: #f1f5f9;
-      border-left: 3px solid #2bbf7c; padding: 8px 12px; border-radius: 6px;
+      font-size: 0.82rem; color: var(--text); background: var(--bg);
+      border-left: 3px solid var(--accent); padding: 9px 14px; border-radius: 8px;
       white-space: pre-wrap;
     }
     .traj-stat-row {
       display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0;
     }
     .traj-stat-row .s {
-      background: #f1f5f9; padding: 3px 9px; border-radius: 6px;
-      font-size: 0.78rem; color: #475569;
+      background: var(--bg); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.78rem; color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
     }
     .traj-modal-foot {
-      padding: 12px 20px; border-top: 1px solid #e2e8f0;
+      padding: 14px 22px; border-top: 1px solid var(--line);
       display: flex; justify-content: flex-end; gap: 10px;
     }
     .traj-open-btn {
-      background: #2563eb; color: #fff; text-decoration: none;
-      padding: 8px 16px; border-radius: 8px; font-size: 0.88rem; font-weight: 600;
+      background: var(--ink); color: #fff; text-decoration: none;
+      padding: 9px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 500;
     }
-    .traj-open-btn:hover { background: #1d4ed8; }
-    .traj-loading { color: #94a3b8; font-size: 0.9rem; }
+    .traj-open-btn:hover { background: #2a2a2a; }
+    .traj-loading { color: var(--muted); font-size: 0.9rem; }
 
     /* Footer */
     footer {
-      text-align: center;
-      padding: 30px 0;
-      font-size: 0.82rem;
-      color: #94a3b8;
-      border-top: 1px solid #eee;
+      padding: 56px 0 36px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: var(--panel);
+      margin-top: 32px;
     }
-    footer a { color: #64748b; }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 1.5rem; }
-      .highlights { grid-template-columns: repeat(2, 1fr); }
+    footer .foot-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 28px;
     }
+    @media (max-width: 640px) { footer .foot-grid { grid-template-columns: 1fr; gap: 24px; } }
+    footer .foot-grid h5 {
+      font-family: inherit; font-size: 0.78rem;
+      color: var(--muted); margin-bottom: 14px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: .14em;
+    }
+    footer .foot-grid a {
+      color: var(--text); text-decoration: none; display: block;
+      padding: 3px 0;
+      font-weight: 500;
+      transition: color .15s ease;
+    }
+    footer .foot-grid a:hover { color: var(--ink); }
+    footer .foot-bottom {
+      text-align: left; padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer .foot-bottom a { color: var(--text); }
+    footer .foot-bottom .foot-dot { color: var(--accent); }
 
     /* Results Table */
+    .table-wrap {
+      position: relative;
+      margin: 24px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 56px), transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 56px), transparent 100%);
+    }
+    .table-scroll-hint {
+      position: absolute; top: 8px; right: 0;
+      font-size: 11px; color: #9ca3af; letter-spacing: .12em;
+      text-transform: uppercase; font-weight: 600;
+      pointer-events: none;
+      background: var(--bg);
+      padding: 2px 4px 2px 8px;
+    }
     .results-table {
       width: 100%;
+      min-width: 880px;
       border-collapse: collapse;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       text-align: center;
+      font-feature-settings: "tnum";
     }
     .results-table th {
-      background: #f1f5f9;
-      padding: 10px 8px;
+      background: transparent;
+      padding: 12px 10px;
       font-weight: 600;
-      color: #334155;
-      border-bottom: 2px solid #cbd5e1;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--ink);
       white-space: nowrap;
     }
     .results-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
       white-space: nowrap;
+      color: var(--text);
     }
     .results-table td:first-child {
       text-align: left;
       font-weight: 500;
+      color: var(--ink);
     }
     .results-table .section-header td {
       font-weight: 600;
-      font-style: italic;
-      color: #475569;
-      background: #f8fafc;
+      font-size: 0.7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
       text-align: left;
-      padding-top: 12px;
-      border-bottom: 1px solid #cbd5e1;
-    }
-    .results-table .ours {
-      background: #eff6ff;
+      padding-top: 20px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
     }
     .results-table .ours td {
-      border-top: 2px solid #2563eb;
-      border-bottom: 2px solid #2563eb;
-      color: #1e40af;
+      background: var(--accent-soft);
+      border-top: 1px solid var(--accent);
+      border-bottom: 1px solid var(--accent);
+      color: var(--ink);
+      font-weight: 500;
+      position: relative;
+    }
+    .results-table .ours td:first-child {
+      padding-left: 16px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .results-table .ours td:first-child::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent);
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+<!-- Sticky top nav -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-brand" href="#top">
+      <span class="brand-logos">
+        <img src="static/zju_logo.png" alt="Zhejiang University" class="brand-logo-zju">
+        <span class="brand-divider"></span>
+        <span class="brand-simplex">Simplex&nbsp;AI</span>
+      </span>
+    </a>
+    <div class="topnav-links">
+      <a href="#tldr">TL;DR</a>
+      <a href="#results">Results</a>
+      <a href="#method">Method</a>
+      <a href="#trajectories">Trajectories</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="top">
   <!-- Hero -->
   <div class="hero">
-    <img src="static/logo.png" alt="LiteResearcher Logo" style="width:280px; margin-bottom:16px;">
-    <h1>LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent</h1>
+    <h1>
+      LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent<span class="punct">.</span>
+    </h1>
+    <p class="lede">
+      A 4B deep research agent that beats 30B open-source baselines and matches Claude-4.5-Sonnet / GPT-5-high — trained with <strong style="color:var(--ink);font-weight:600">zero marginal RL API cost</strong>.
+    </p>
     <div class="authors">
       <span>Wanli Li<span class="equal">1,2,*</span></span>,
       <span>Bince Qu<span class="equal">1,2,*</span></span>,
@@ -363,65 +782,67 @@
       <span>Bo Zhang<span class="equal">1,2,&dagger;</span></span>
     </div>
     <div class="affiliations">
-      <sup>1</sup> Zhejiang University &nbsp;&bull;&nbsp;
-      <sup>2</sup> Simplex AI &nbsp;&bull;&nbsp;
-      <sup>3</sup> The Hong Kong Polytechnic University
+      <span class="aff"><sup>1</sup>&nbsp;Zhejiang University</span>
+      <span class="sep">•</span>
+      <span class="aff"><sup>2</sup>&nbsp;Simplex AI</span>
+      <span class="sep">•</span>
+      <span class="aff"><sup>3</sup>&nbsp;The Hong Kong Polytechnic University</span>
     </div>
     <div class="aff-note">
       <span class="equal">*</span> Equal contribution. Work done during internship at Simplex AI. &nbsp;&nbsp;
       <span class="corresponding">&dagger;</span> Corresponding authors
     </div>
     <div class="aff-note" style="margin-top:4px;">
-      &#9993; {wanli_li@zju.edu.cn, tonyzhang@simplexai.com}
+      &#9993; <a href="mailto:wanli_li@zju.edu.cn" style="color:inherit">wanli_li@zju.edu.cn</a>, <a href="mailto:tonyzhang@simplexai.com" style="color:inherit">tonyzhang@simplexai.com</a>
     </div>
     <div class="buttons">
       <a class="btn btn-primary" href="https://arxiv.org/abs/2604.17931" target="_blank">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         Paper
       </a>
-      <a class="btn btn-outline" href="https://github.com/simplex-ai-inc/LiteResearcher" target="_blank">
+      <a class="btn btn-outline github" href="https://github.com/simplex-ai-inc/LiteResearcher" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         Code
       </a>
-      <a class="btn btn-outline" href="https://huggingface.co/simplex-ai-inc/LiteResearcher-4B" target="_blank">
-        <span style="font-size:18px">🤗</span>
+      <a class="btn btn-outline hf" href="https://huggingface.co/simplex-ai-inc/LiteResearcher-4B" target="_blank">
+        <span class="brand-chip">HF</span>
         Model
       </a>
-      <a class="btn btn-outline" href="./cases/" target="_blank">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
-        Trajectories
-      </a>
+    </div>
+    <div class="sub-links">
+      <a href="https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data" target="_blank">Dataset →</a>
+      <a href="./cases/" target="_blank">Trajectory viewer →</a>
     </div>
   </div>
 
   <!-- TL;DR -->
-  <section>
-    <h2>TL;DR</h2>
-    <p style="font-size:1.08rem; color:#1a1a1a;">
-      <strong>LiteResearcher-4B</strong> is a 4B deep research agent trained with zero marginal RL API cost,
-      outperforming 30B open-source deep research agents and surpassing Claude-4.5-Sonnet and GPT-5-high on selected benchmarks.
-      Its RL stage runs entirely in a local search/browse environment, enabling 73.2M tool calls without live search or browse API consumption.
+  <section id="tldr">
+    <div class="section-eyebrow">TL;DR</div>
+    <h2>One sentence<span class="punct">.</span></h2>
+    <p style="font-size:1.15rem; color:var(--ink); max-width:820px; line-height:1.55;">
+      <strong style="font-weight:600">LiteResearcher-4B</strong> is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5-high. Its RL stage runs entirely in a local search/browse environment, enabling 73.2M tool calls without live search or browse API consumption.
     </p>
   </section>
 
   <!-- Key Results -->
-  <section>
-    <h2>Key Results</h2>
+  <section id="results">
+    <div class="section-eyebrow">Headline numbers</div>
+    <h2>The shape of the result<span class="punct">.</span></h2>
     <div class="highlights">
       <div class="highlight-card">
-        <span class="number">71.3 / 78.0</span>
+        <span class="number">71.3<span class="stat-slash">/</span>78.0</span>
         <div class="label">GAIA / Xbench-DS</div>
         <div class="detail">open-source SOTA; beats 30B agents</div>
       </div>
       <div class="highlight-card">
         <span class="number">+15.7</span>
         <div class="label">GAIA points from RL</div>
-        <div class="detail">SFT 55.6 &rarr; RL 71.3; AgentCPM +3.8</div>
+        <div class="detail">SFT 55.6 → RL 71.3; AgentCPM +3.8</div>
       </div>
       <div class="highlight-card">
         <span class="number">73.2M</span>
         <div class="label">local RL tool calls</div>
-        <div class="detail">$0 marginal API cost vs. $59K&ndash;$243K live web</div>
+        <div class="detail">$0 marginal cost vs. $59K–$243K live web</div>
       </div>
     </div>
     <figure class="figure">
@@ -432,18 +853,20 @@
 
   <!-- Abstract -->
   <section>
-    <h2>Abstract</h2>
+    <div class="section-eyebrow">Abstract</div>
+    <h2>The full story<span class="punct">.</span></h2>
     <p>
       Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fail to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and expensive cost, which limit the scalability of Agentic RL.
     </p>
     <p>
-      <strong>LiteResearcher</strong> is a training framework to make Agentic RL scalable and low-cost: by constructing a lite virtual world that mirrors the real-world search dynamics, we enabled a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g. Tongyi DeepResearch and Claude-4.5 Sonnet). The RL stage runs entirely in a local search/browse environment, removing external API consumption during RL while preserving realistic tool-use dynamics. Specifically, on most common benchmarks like GAIA and Xbench, our <strong>LiteResearcher-4B</strong> achieves the open-source state-of-the-art results of <strong>71.3%</strong> and <strong>78.0%</strong> respectively, proving that scalable RL training is essential for Deep Research Agents.
+      <strong style="color:var(--ink);font-weight:600">LiteResearcher</strong> is a training framework to make Agentic RL scalable and low-cost: by constructing a lite virtual world that mirrors the real-world search dynamics, we enabled a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g. Tongyi DeepResearch and Claude-4.5 Sonnet). The RL stage runs entirely in a local search/browse environment, removing external API consumption during RL while preserving realistic tool-use dynamics. Specifically, on most common benchmarks like GAIA and Xbench, our <strong style="color:var(--ink);font-weight:600">LiteResearcher-4B</strong> achieves the open-source state-of-the-art results of <strong style="color:var(--ink);font-weight:600">71.3%</strong> and <strong style="color:var(--ink);font-weight:600">78.0%</strong> respectively, proving that scalable RL training is essential for Deep Research Agents.
     </p>
   </section>
 
   <!-- Method Overview -->
-  <section>
-    <h2>Method Overview</h2>
+  <section id="method">
+    <div class="section-eyebrow">Method</div>
+    <h2>Three pillars<span class="punct">.</span></h2>
     <p>
       LiteResearcher constructs a virtual world with identical architecture to the real web but isolated in execution. The framework consists of three key components:
     </p>
@@ -464,11 +887,11 @@
 
   <!-- Benchmark Results -->
   <section>
-    <h2>Main Results</h2>
+    <h2>Main Results<span class="punct">.</span></h2>
     <p>
       LiteResearcher-4B consistently outperforms open-source models up to 8&times; larger and matches or exceeds proprietary systems across eight benchmarks, while remaining a low-cost 4B agent trained with fully local RL tool calls.
     </p>
-    <div style="overflow-x:auto; margin:24px 0;">
+    <div class="table-wrap"><span class="table-scroll-hint">scroll →</span>
       <table class="results-table">
         <thead>
           <tr>
@@ -516,7 +939,8 @@
 
   <!-- Training Dynamics -->
   <section>
-    <h2>Training Dynamics</h2>
+    <div class="section-eyebrow">Training</div>
+    <h2>Curriculum keeps signal alive<span class="punct">.</span></h2>
     <p>
       Our difficulty-aware curriculum learning prevents training saturation. Stage 2 with adjusted difficulty yields +3.6% GAIA accuracy after Stage 1 plateaus, demonstrating the importance of progressive curriculum design.
     </p>
@@ -528,10 +952,39 @@
 
   <!-- Trajectory Cases -->
   <section id="trajectories">
-    <h2>Trajectory Cases</h2>
+    <div class="section-eyebrow">Trajectories</div>
+    <h2>Watch it think<span class="punct">.</span></h2>
     <p class="traj-intro">
-      15 hand-audited rollout trajectories from <strong>LiteResearcher-4B</strong> across 8 deep-research benchmarks. Every case is judged correct, leak-free, and verified by 4 independent Opus-4.7 (1M-context) subagents to confirm the answer is derived from cited evidence. Click any card for a quick look, or open the full step-by-step viewer.
+      A few of our trajectories — pick one and watch <strong>LiteResearcher-4B</strong> think, search, and answer.
     </p>
+
+    <!-- Trajectory video player (3 picks, 15s each) -->
+    <div class="traj-video-wrap" id="traj-video">
+      <div class="traj-video-tabs" role="tablist">
+        <button class="traj-tab active" data-video="videos/gaia-56.mp4" data-poster="videos/gaia-56.jpg"
+          data-caption="Washington county-seat population diff (2020 census)">
+          <span class="dot"></span> GAIA
+        </button>
+        <button class="traj-tab" data-video="videos/xbench-92.mp4" data-poster="videos/xbench-92.jpg"
+          data-caption="Campbell sisters age difference in weeks">
+          <span class="dot"></span> Xbench-DS
+        </button>
+        <button class="traj-tab" data-video="videos/webwalker-158.mp4" data-poster="videos/webwalker-158.jpg"
+          data-caption="SDUFE professor with earliest national honor">
+          <span class="dot"></span> WebWalkerQA
+        </button>
+      </div>
+      <div class="traj-video-stage">
+        <video id="traj-video-el"
+          src="videos/gaia-56.mp4"
+          poster="videos/gaia-56.jpg"
+          autoplay muted loop playsinline preload="metadata"></video>
+      </div>
+      <div class="traj-video-caption" id="traj-video-caption">
+        Washington county-seat population diff (2020 census)
+      </div>
+    </div>
+
     <div id="traj-grid" class="traj-grid">
       <div class="traj-loading">Loading cases…</div>
     </div>
@@ -541,8 +994,8 @@
   </section>
 
   <!-- BibTeX -->
-  <section>
-    <h2>BibTeX</h2>
+  <section id="bibtex">
+    <h2>BibTeX<span class="punct">.</span></h2>
     <div class="bibtex-box" id="bibtex">
       <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('bibtex-text').textContent)">Copy</button>
       <pre id="bibtex-text">@article{li2026literesearcher,
@@ -557,7 +1010,31 @@
 
 <footer>
   <div class="container">
-    This page template is inspired by <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
+    <div class="foot-grid">
+      <div>
+        <h5>LiteResearcher</h5>
+        <p style="color:#64748b; font-size:0.85rem; line-height:1.65;">
+          A low-cost, scalable Agentic RL training framework for deep research agents — built with a fully local search/browse environment.
+        </p>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="https://arxiv.org/abs/2604.17931" target="_blank">arXiv paper</a>
+        <a href="https://github.com/simplex-ai-inc/LiteResearcher" target="_blank">GitHub repo</a>
+        <a href="https://huggingface.co/simplex-ai-inc/LiteResearcher-4B" target="_blank">HF model</a>
+        <a href="https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data" target="_blank">HF dataset</a>
+        <a href="./cases/" target="_blank">Trajectory viewer</a>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <a href="mailto:wanli_li@zju.edu.cn">wanli_li@zju.edu.cn</a>
+        <a href="mailto:tonyzhang@simplexai.com">tonyzhang@simplexai.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      Page template inspired by <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
+      &copy; 2026 Simplex AI &bull; Zhejiang University.
+    </div>
   </div>
 </footer>
 
@@ -585,14 +1062,14 @@
   const TM_CLOSE = document.getElementById("tm-close");
 
   const BENCH_COLORS = {
-    Frame:           { bg: "#eef2ff", fg: "#4338ca" },
-    GAIA:            { bg: "#ecfeff", fg: "#0e7490" },
-    HLE:             { bg: "#fef3c7", fg: "#92400e" },
-    Seal0:           { bg: "#fee2e2", fg: "#b91c1c" },
-    WebwalkerQA:     { bg: "#dcfce7", fg: "#166534" },
-    Xbench:          { bg: "#ffe4e6", fg: "#9f1239" },
-    "browsecomp-zh": { bg: "#f3e8ff", fg: "#6b21a8" },
-    browsecomp:     { bg: "#e0e7ff", fg: "#3730a3" },
+    Frame:           { bg: "#f5f5f4", fg: "#0a0a0a" },
+    GAIA:            { bg: "#f5f5f4", fg: "#0a0a0a" },
+    HLE:             { bg: "#f5f5f4", fg: "#0a0a0a" },
+    Seal0:           { bg: "#f5f5f4", fg: "#0a0a0a" },
+    WebwalkerQA:     { bg: "#f5f5f4", fg: "#0a0a0a" },
+    Xbench:          { bg: "#f5f5f4", fg: "#0a0a0a" },
+    "browsecomp-zh": { bg: "#f5f5f4", fg: "#0a0a0a" },
+    browsecomp:      { bg: "#f5f5f4", fg: "#0a0a0a" },
   };
 
   const BENCH_LABEL = {
@@ -638,8 +1115,8 @@
           </div>
           <div class="tc-q">${escapeHTML(c.question)}</div>
           <div class="tc-stats">
-            <span class="s">🔍 ${c.n_search}</span>
-            <span class="s">🌐 ${c.n_visit}</span>
+            <span class="s"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="20" y2="20"/></svg> ${c.n_search}</span>
+            <span class="s"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> ${c.n_visit}</span>
           </div>
         </div>`;
     }).join("");
@@ -708,6 +1185,28 @@
       GRID.innerHTML = `<div class="traj-loading">Failed to load cases index: ${escapeHTML(e.message)}</div>`;
     }
   })();
+
+  // Trajectory video player tabs
+  const tabs = document.querySelectorAll(".traj-tab");
+  const videoEl = document.getElementById("traj-video-el");
+  const captionEl = document.getElementById("traj-video-caption");
+  if (videoEl && tabs.length) {
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const src = tab.dataset.video;
+        const poster = tab.dataset.poster;
+        if (src && videoEl.getAttribute("src") !== src) {
+          videoEl.setAttribute("poster", poster || "");
+          videoEl.setAttribute("src", src);
+          videoEl.load();
+          videoEl.play().catch(() => {});
+        }
+        if (captionEl) captionEl.innerHTML = tab.dataset.caption || "";
+      });
+    });
+  }
 })();
 </script>
 

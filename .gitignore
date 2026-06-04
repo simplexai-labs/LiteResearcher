@@ -40,3 +40,16 @@ figures_bg/
 # Backup
 icml_backup/
 plot_stage_comparison_backup.py
+
+# Added for site redesign
+.claude/
+backup/
+rebuttals/
+xhs_images/
+literesearcher_arxiv/
+literesearcher_arxiv 2/
+literesearcher_arxiv.zip
+qwen3-4b-rl-cases.zip
+plt_1.py
+reviews_summary.md
+figures/_backup/

@@ -14,7 +14,7 @@
 
 </div>
 
-**LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and surpassing Claude-4.5-Sonnet and GPT-5 on selected benchmarks.**
+**LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5.**
 
 | Key number | Result | Why it matters |
 |------------|--------|----------------|

@@ -1,0 +1,205 @@
+{
+  "cases": [
+    {
+      "benchmark": "GAIA",
+      "id": 56,
+      "question": "As of the 2020 census, what was the population difference between the largest county seat and smallest county seat, by land area of the county seat, in Washington state? For population figures, please use the official data from data.census…",
+      "reference_answer": "736455",
+      "final_answer": "The integer population difference between Washington’s most populous county seat (Seattle, with a 2020 census population of **737,015**) and its least populous county seat (Cathlamet, with a 2020 census population of **560**)—when ranked by the land area of their respective cities—is **736,455**. This result is derived from official 2020 U.S. Census data for these two cities, as reported on their Wikipedia pages (which cite the Census Bureau). While many Washington county seats are small towns, Seattle stands out as both the largest city by land area (83.99 sq mi) and the most populous county seat, while Cathlamet—though geographically compact (0.51 sq mi)—remains the smallest-populated county seat.",
+      "judge_correct": true,
+      "stats": {
+        "n_search": 7,
+        "n_visit": 47,
+        "n_domains": 3,
+        "n_think_turns": 50,
+        "total_think_chars": 31794,
+        "domains": [
+          "census.gov",
+          "en.wikipedia.org",
+          "listchallenges.com"
+        ],
+        "hack_penalty": 0.0,
+        "natural_bonus": 1.05
+      },
+      "turns": [
+        {
+          "think": "We need to answer: As of the 2020 census, what was the population difference between the largest county seat and smallest county seat, by land area of the county seat, in Washington state? For population figures, use of…",
+          "tool": {
+            "name": "search",
+            "args": {
+              "query": "Washington state counties list county seats"
+            },
+            "args_str": "query=\"Washington state counties list county seats\"",
+            "result": "A Google search for 'Washington state counties list county seats' found 9 results: ## Web Results 1. Category:County seats in Washington (state) - Wikipedia) Template:Washington (state) county seats ; A. Asotin, Washing…"
+          }
+        },
+        {
+          "think": "We have many search results",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "https://en.wikipedia.org/wiki/List_of_counties_in_Washington",
+              "domain": "en.wikipedia.org",
+              "goal": "Extract list of counties, their county seats, and any land area or population data for the county seat (city) if availa…"
+            },
+            "args_str": "url=\"https://en.wikipedia.org/wiki/List_of_counties_in_Washington\"",
+            "result": "The useful information in https://en.wikipedia.org/wiki/List_of_counties_in_Washington for user goal Extract list of counties, their county seats, and any land area or population data for the county seat (city) if avail…"
+          }
+        },
+        {
+          "think": "Result 10: \"Largest Cities & Seats of Every Washington County - List Challenges\"",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "https://www.listchallenges.com/largest-cities-and-seats-of-every-washington",
+              "domain": "listchallenges.com",
+              "goal": "Extract list of county seats and their population and land area (if available)."
+            },
+            "args_str": "url=\"https://www.listchallenges.com/largest-cities-and-seats-of-every-washington\"",
+            "result": "The useful information in https://www.listchallenges.com/largest-cities-and-seats-of-every-washington for user goal Extract list of county seats and their population and land area (if available). as follows: Evidence in…"
+          }
+        },
+        {
+          "think": "Thus Cathlamet is indeed a county seat",
+          "tool": null
+        }
+      ]
+    },
+    {
+      "benchmark": "Xbench",
+      "id": 92,
+      "question": "在2020年夏季奥运会中有一对参与同一届奥运国家游泳队的姐妹，请问这对姐妹的姐姐和妹妹年龄差多少周？（精确到个位）",
+      "reference_answer": "103周",
+      "final_answer": "The age difference between the two sisters is approximately **103 weeks** (approximately 103.4 weeks). To be precise:  \n- Cate Campbell was born on **20 May 1992**.  \n- Bronte Campbell was born on **14 May 1994**.  \n- The absolute time difference between these dates is **724 days**.  \n- Converting this to weeks gives **724 ÷ 7 ≈ 103.42857 weeks**, which rounds to **103 weeks** when expressed to the nearest whole number (i.e., \"exact to the nearest week\").\n\nThus, the older sister (Cate) and the younger sister (Bronte) differ in age by roughly **103 weeks**.",
+      "judge_correct": true,
+      "stats": {
+        "n_search": 12,
+        "n_visit": 26,
+        "n_domains": 10,
+        "n_think_turns": 33,
+        "total_think_chars": 17276,
+        "domains": [
+          "bbc.co.uk",
+          "en.wikipedia.org",
+          "forbes.com",
+          "insidethegames.biz",
+          "newidea.com.au",
+          "olympics.com"
+        ],
+        "hack_penalty": 0.0,
+        "natural_bonus": 1.2
+      },
+      "turns": [
+        {
+          "think": "我们需要找出在2020年夏季奥运会 (2020 Summer Olympics)（即东京奥运会 (Tokyo Olympics)，于2021年举行）中，有一对姐妹都代表同一国家参加了游泳比赛",
+          "tool": {
+            "name": "search",
+            "args": {
+              "query": "2020 年夏季奥运会 游泳 姐妹 同一国家"
+            },
+            "args_str": "query=\"2020 年夏季奥运会 游泳 姐妹 同一国家\"",
+            "result": "A Google search for '2020 年夏季奥运会 游泳 姐妹 同一国家' found 10 results: ## Web Results 1. 20年前出生中国的女孩为加拿大夺得东奥首金 - DW.com Date published: 2021年7月28日 （德国之声中文网）加拿大华裔玛姬．麦克尼尔（Maggie MacNeil ）26日击败中国选手张雨霏，在女子100米蝶泳比赛中为加拿大摘下东京奥运会的首面…"
+          }
+        },
+        {
+          "think": "让我们打开结果7（勃朗特·坎贝尔 (Bronte Campbell) - 维基百科 (Wikipedia)）",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "https://zh.wikipedia.org/zh-cn/%E5%8B%83%E6%9C%97%E7%89%B9%C2%B7%E5%9D%8E%E8%B4%9D%E5%B0%94",
+              "domain": "zh.wikipedia.org",
+              "goal": "查找关于澳大利亚游泳姐妹在2020年东京奥运会的信息，包括她们的年龄和年龄差"
+            },
+            "args_str": "url=\"https://zh.wikipedia.org/zh-cn/%E5%8B%83%E6%9C%97%E7%89%B9%C2%B7%E5%9D%8E%E8%B4…\"",
+            "result": "The useful information in https://zh.wikipedia.org/zh-cn/%E5%8B%83%E6%9C%97%E7%89%B9%C2%B7%E5%9D%8E%E8%B4%9D%E5%B0%94 for user goal 查找关于澳大利亚游泳姐妹在2020年东京奥运会的信息，包括她们的年龄和年龄差 as follows: Evidence in page: 在 2020年 东京 4×100米自…"
+          }
+        },
+        {
+          "think": "该页面指出，勃朗特·坎贝尔 (Bronte Campbell) 和凯特·坎贝尔 (Cate Campbell) 是一对姐妹",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "https://zh.wikipedia.org/wiki/%E5%87%AF%E7%89%B9%C2%B7%E5%9D%8E%E8%B4%9D%E5%B0%94",
+              "domain": "zh.wikipedia.org",
+              "goal": "获取凯特·坎贝尔的出生日期"
+            },
+            "args_str": "url=\"https://zh.wikipedia.org/wiki/%E5%87%AF%E7%89%B9%C2%B7%E5%9D%8E%E8%B4%9D%E5%B0%…\"",
+            "result": "The useful information in https://zh.wikipedia.org/wiki/%E5%87%AF%E7%89%B9%C2%B7%E5%9D%8E%E8%B4%9D%E5%B0%94 for user goal 获取凯特·坎贝尔的出生日期 as follows: Evidence in page: 出生 ( 1992-05-20 ) 1992年5月20日 （ 33歲） 馬拉威布蘭太爾) Summary:…"
+          }
+        },
+        {
+          "think": "因此，这对姐妹是澳大利亚 (Australian) 的凯特·坎贝尔 (Cate Campbell) 和勃朗特·坎贝尔 (Bronte Campbell)",
+          "tool": null
+        }
+      ]
+    },
+    {
+      "benchmark": "WebwalkerQA",
+      "id": 158,
+      "question": "谁是山东财经大学计算机与人工智能学院特聘教授中，最早获得国家级荣誉的人？",
+      "reference_answer": "汪萌",
+      "final_answer": "The earliest nationally recognized honor among the specially appointed professors (特聘教授) in the School of Computer Science and Artificial Intelligence at Shandong University of Finance and Economics belongs to **Wang Meng** (汪萌). She is a specially appointed professor at the university, and her first major national-level honor was receiving the **National Natural Science Foundation of China’s Outstanding Youth Fund** (awarded in 2013), which qualifies as a significant national-level recognition. While other specially appointed professors like Zhang Caiming (张彩明) also hold national honors (e.g., State Council Special Subsidy and Ministry of Education Science and Technology Progress Awards), Wang Meng’s early achievement—her receipt of the NNSFC Outstanding Youth Fund in 2013—makes her the earliest among those listed.",
+      "judge_correct": true,
+      "stats": {
+        "n_search": 15,
+        "n_visit": 36,
+        "n_domains": 6,
+        "n_think_turns": 43,
+        "total_think_chars": 12743,
+        "domains": [
+          "baike.baidu.com",
+          "cs.sdufe.edu.cn",
+          "nbhsrc.com",
+          "sdufe.edu.cn",
+          "shandong.eol.cn",
+          "zhengguibc.com"
+        ],
+        "hack_penalty": 0.0,
+        "natural_bonus": 1.2
+      },
+      "turns": [
+        {
+          "think": "我们需要回答：“谁是山东财经大学计算机与人工智能学院特聘教授中，最早获得国家级荣誉的人？”",
+          "tool": {
+            "name": "search",
+            "args": {
+              "query": "山东财经大学 计算机与人工智能学院 特聘教授"
+            },
+            "args_str": "query=\"山东财经大学 计算机与人工智能学院 特聘教授\"",
+            "result": "A Google search for '山东财经大学 计算机与人工智能学院 特聘教授' found 10 results: ## Web Results 1. 知名专家-计算机与人工智能学院 - 山东财经大学 教授 副教授 讲师 助教. 系所中心： 全部 计算机科学与技术系 数字媒体技术系 人工智能系 计算金融系. 导师： 全部 博士生导师 硕士生导师. 刘慧 · 蹇木伟 · 韩慧健 · 张云峰. 2. 尹义龙 - 西南财经大学计算…"
+          }
+        },
+        {
+          "think": "最相关的似乎是“知名专家-计算机与人工智能学院 - 山东财经大学”，其网址为 http://cs.sdufe.edu.cn/szdw/zmzj.htm",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "http://cs.sdufe.edu.cn/szdw/zmzj.htm",
+              "domain": "cs.sdufe.edu.cn",
+              "goal": "获取山东财经大学计算机与人工智能学院知名专家/特聘教授的名单及其个人简介，特别是每位教授的国家级荣誉信息"
+            },
+            "args_str": "url=\"http://cs.sdufe.edu.cn/szdw/zmzj.htm\"",
+            "result": "The useful information in http://cs.sdufe.edu.cn/szdw/zmzj.htm for user goal 获取山东财经大学计算机与人工智能学院知名专家/特聘教授的名单及其个人简介，特别是每位教授的国家级荣誉信息 as follows: Evidence in page: å¸èµéä¼ é¦é¡µ å¸èµéä¼ ç¥åä¸å®¶ - æå¸åå½…"
+          }
+        },
+        {
+          "think": "访问结果似乎不完整；也许页面被截断了",
+          "tool": {
+            "name": "visit",
+            "args": {
+              "url": "https://cs.sdufe.edu.cn/",
+              "domain": "cs.sdufe.edu.cn",
+              "goal": "查找山东财经大学计算机与人工智能学院的师资队伍、知名专家以及特聘教授名单，获取每位教授的个人简介和国家级荣誉信息"
+            },
+            "args_str": "url=\"https://cs.sdufe.edu.cn/\"",
+            "result": "The useful information in https://cs.sdufe.edu.cn/ for user goal 查找山东财经大学计算机与人工智能学院的师资队伍、知名专家以及特聘教授名单，获取每位教授的个人简介和国家级荣誉信息 as follows: Evidence in page: - [师资队伍 [if gte IE 7]><!](szdw/jsml.htm)<![endif] [if lte IE 6]><ta…"
+          }
+        },
+        {
+          "think": "因此，张彩明 (Zhang Caiming) 在2014年获得了国务院政府特殊津贴 (State Council Special Subsidy)，这是一个国家级荣誉",
+          "tool": null
+        }
+      ]
+    }
+  ]
+}
