@@ -5,6 +5,7 @@
 ### A Low-Cost, Scalable Agentic RL Training Framework for Deep Research Agent
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.17931)
+[![Webpage](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplex-ai-inc.github.io/LiteResearcher/)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)
 [![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplex-ai-inc.github.io/LiteResearcher/cases/)
