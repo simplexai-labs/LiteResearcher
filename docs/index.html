@@ -439,6 +439,31 @@
     }
     .copy-btn:hover { background: rgba(255,255,255,.16); }
 
+    /* Light code box (Quick Start) */
+    .code-box {
+      background: #fafaf9;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 22px;
+      overflow-x: auto;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(15,15,15,.03);
+    }
+    .code-box pre {
+      margin: 0;
+      font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      white-space: pre;
+      color: #1f2937;
+    }
+    .code-box .copy-btn {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .code-box .copy-btn:hover { background: var(--accent-soft); color: var(--accent-deep); border-color: var(--accent); }
+
     /* Trajectory intro */
     .traj-intro { color: var(--muted); font-size: 0.98rem; margin-bottom: 22px; max-width: 760px; }
     .traj-intro strong { color: var(--ink); font-weight: 600; }
@@ -918,7 +943,7 @@
       <a href="https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus" target="_blank">HuggingFace</a>.
       Stand up your own local search tool in four steps:
     </p>
-    <div class="bibtex-box">
+    <div class="code-box">
       <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('quickstart-text').textContent)">Copy</button>
       <pre id="quickstart-text"># 0. Install (also needs local BGE-M3 weights + a Redis instance)
 pip install -r requirements.txt
