@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Logs and checkpoints
+*.log
+nohup.out
+output.log
+filter_ckpt*.txt
+sampled_wiki_history_urls.txt
+
+# Generated datasets and large runtime artifacts
+qa_outputs*/
+output_filtered*/
+serper_filter*/
+wiki_revisions*/
+wiki_revisions_test/
+wiki_en/
+storage*/
+*.jsonl
+*.arrow
+*.parquet
+*.bin
+*.html
+
+# Local installers and editor state
+Miniconda3-*.sh
+.vscode/
+read_html.md

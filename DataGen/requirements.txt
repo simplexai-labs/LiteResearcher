@@ -1,0 +1,5 @@
+beautifulsoup4>=4.12
+datasets>=2.18
+pyarrow>=15.0
+requests>=2.31
+tqdm>=4.66
