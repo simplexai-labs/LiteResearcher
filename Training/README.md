@@ -126,7 +126,7 @@ Tool endpoints (`search_service_url`, `browse_service_url`) are configured in
 
 The training data is published as a 🤗 dataset:
 **[`simplex-ai-inc/LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)**.
-One command gets you all three parquet files (28K prompts, 19 MB total):
+One command gets you both stage parquet files (26.6 K prompts, ~19 MB total):
 
 ```bash
 hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
@@ -137,11 +137,14 @@ hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
 |---|---|---|
 | `literesearcher_data/stage1/train.parquet`     | Stage 1 train | 10,398 — pure local-RAG warmup |
 | `literesearcher_data/stage2/train.parquet`     | Stage 2 train | 16,199 — 25-bucket difficulty + diversity curriculum |
-| `literesearcher_data/validation/wiki.parquet`  | Stage 1+2 val | 1,694 — shared Wikipedia QA monitoring set |
 
-Then point the launcher env-vars at the downloaded files (see Stage 1/2 sections
-below). The dataset card on Hugging Face documents the full schema and curriculum
-design.
+> **No validation parquet is bundled.** The Wikipedia QA monitoring set we used
+> internally is not a meaningful benchmark on its own. For real evaluation use
+> the standard deep-research benchmarks
+> (GAIA, Xbench-DS, Frames, BrowseComp, HLE, Seal-0, WebwalkerQA) via the
+> [`Inference/`](../Inference/) harness. Verl still requires `data.val_files`
+> to be non-empty, so the launchers default `VAL_DATA="$TRAIN_DATA"` — override
+> with a small held-out slice if you want a real validation curve.
 
 ### Rebuilding from raw sources (optional)
 

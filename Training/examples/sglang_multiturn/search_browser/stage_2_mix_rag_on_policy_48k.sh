@@ -36,8 +36,13 @@ CONFIG_PATH="$PROJECT_DIR/examples/sglang_multiturn/config"
 
 # ==================== Training Data ====================
 # Stage-2 RL mix dataset (multi-hop + single-hop RAG + Bio/Chem/Math + Wiki)
+#   Available on 🤗:
+#     hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
+#                 --local-dir ./literesearcher_data
 TRAIN_DATA="${TRAIN_DATA:-$PROJECT_DIR/data/deepresearch_rl/stage2/stage2_all_0210.parquet}"
-VAL_DATA="${VAL_DATA:-$PROJECT_DIR/data/deepresearch_rl/stage2/stage2_wiki.parquet}"
+# No separate validation set is released — see LiteResearcher-Data README.
+# Default to train so verl's required data.val_files is non-empty.
+VAL_DATA="${VAL_DATA:-$TRAIN_DATA}"
 
 # Dual tools config
 TOOL_CONFIG="$CONFIG_PATH/tool_config/google_search_browse_tool_config.yaml"

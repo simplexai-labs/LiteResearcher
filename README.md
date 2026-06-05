@@ -103,13 +103,13 @@ hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
 
 # Stage 1 — single node 8×H20, RAG-only warmup, 32K ctx
 export TRAIN_DATA=./literesearcher_data/stage1/train.parquet
-export VAL_DATA=./literesearcher_data/validation/wiki.parquet
+export VAL_DATA="$TRAIN_DATA"     # no separate val bundled; verl needs a non-empty val_files
 export MODEL_PATH=/path/to/qwen3-4b-sft-cold-start
 bash examples/sglang_multiturn/search_browser/stage1_rag_only.sh
 
 # Stage 2 — 2 nodes × 8 H20, mix curriculum, 48K ctx, resume from Stage-1 step ~220
 export TRAIN_DATA=./literesearcher_data/stage2/train.parquet
-export VAL_DATA=./literesearcher_data/validation/wiki.parquet
+export VAL_DATA="$TRAIN_DATA"
 export MODEL_PATH=/path/to/stage1-ckpt/global_step_220
 bash examples/sglang_multiturn/search_browser/stage_2_mix_rag_on_policy_48k.sh
 ```

@@ -39,9 +39,14 @@ CONFIG_PATH="$PROJECT_DIR/examples/sglang_multiturn/config"
 
 # ==================== Training Data ====================
 # Stage-1 RL data (pure local-RAG synthesized, multi-hop + single-hop)
-#   Build via:  python data/deepresearch_rl/merge_rag_with_mask_url.py ...
+#   Available on 🤗:
+#     hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
+#                 --local-dir ./literesearcher_data
 TRAIN_DATA="${TRAIN_DATA:-$PROJECT_DIR/data/deepresearch_rl/stage2_final/stage2_rag_only_masked_url.parquet}"
-VAL_DATA="${VAL_DATA:-$PROJECT_DIR/data/deepresearch_rl/stage2/stage2_wiki.parquet}"
+# No separate validation set is released — see LiteResearcher-Data README.
+# Verl needs data.val_files to be non-empty, so we default to train; override
+# with your own held-out parquet if you want a real validation curve.
+VAL_DATA="${VAL_DATA:-$TRAIN_DATA}"
 
 # Dual tools config
 TOOL_CONFIG="$CONFIG_PATH/tool_config/google_search_browse_tool_config.yaml"
