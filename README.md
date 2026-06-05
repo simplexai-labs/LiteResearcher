@@ -62,7 +62,7 @@ Each trajectory renders 40–170 steps showing the model's `think` → `search` 
 ```
 ├── Inference/              # Inference & evaluation (released)
 ├── Training/               # RL training — GRPO + curriculum (released)
-├── DataGen/                # Data synthesis (coming soon)
+├── DataGen/                # Data synthesis (released)
 ├── Environment/            # Local search/browse environment (released)
 └── docs/                   # Project page
 ```
@@ -129,7 +129,7 @@ for the data schema and curriculum design.
 - [x] Search corpus — 32M records ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
 - [x] Training code — GRPO + curriculum RL ([`Training/`](Training/))
 - [x] Training data — Stage-1 & Stage-2 prompts ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data))
-- [ ] Data synthesis pipeline
+- [x] Data synthesis pipeline ([`DataGen/`](DataGen/))
 
 ## Citation
 
