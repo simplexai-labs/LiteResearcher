@@ -7,6 +7,7 @@
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.17931)
 [![Webpage](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplex-ai-inc.github.io/LiteResearcher/)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
+[![Corpus](https://img.shields.io/badge/Corpus%2032M-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)
 [![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplex-ai-inc.github.io/LiteResearcher/cases/)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-3776ab?logo=python&logoColor=white)
@@ -62,7 +63,7 @@ Each trajectory renders 40–170 steps showing the model's `think` → `search` 
 ├── Inference/              # Inference & evaluation (released)
 ├── Training/               # RL training (coming soon)
 ├── DataGen/                # Data synthesis (coming soon)
-├── Environment/            # Local search/browse environment (coming soon)
+├── Environment/            # Local search/browse environment (released)
 └── docs/                   # Project page
 ```
 
@@ -88,9 +89,10 @@ See [`Inference/README.md`](Inference/README.md) for detailed configuration and 
 - [x] Evaluation code
 - [x] Project page
 - [x] Model weights (LiteResearcher-4B)
+- [x] Local search/browse environment setup ([`Environment/`](Environment/))
+- [x] Search corpus — 32M records ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
 - [ ] Training code (GRPO + curriculum RL)
 - [ ] Data synthesis pipeline
-- [ ] Local search/browse environment setup
 
 ## Citation
 

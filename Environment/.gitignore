@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 日志与运行产物
+logs/
+*.log
+
+# 数据导入进度文件
+*_progress.json
+*_processed_files.txt
+config_backups/
+
+# 数据文件
+*.jsonl
+*.json.gz
+*.parquet
+
+# 本地配置覆盖
+.env
+*.local
+
+# 编辑器
+.idea/
+.vscode/
+.DS_Store

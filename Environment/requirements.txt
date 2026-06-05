@@ -1,0 +1,31 @@
+# LiteResearcher 依赖
+# ============================================
+
+# 核心：向量化 + 向量数据库
+torch>=2.0.0
+transformers>=4.30.0
+pymilvus[model]>=2.4.0        # 含 BGEM3EmbeddingFunction（pymilvus.model.hybrid）
+scipy>=1.10.0                 # 稀疏向量处理
+
+# 检索后端服务
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+pydantic>=2.0.0
+starlette>=0.27.0
+
+# Redis 队列（检索后端 <-> embedding worker）
+redis>=5.0.0
+msgpack>=1.0.0
+
+# 数据处理
+numpy>=1.24.0
+tqdm>=4.65.0
+chardet>=5.0.0               # 文件编码检测
+tiktoken>=0.5.0             # token 计数
+
+# 可选：PostgreSQL 全文存储（ENABLE_SQL_STORAGE=True 时需要）
+psycopg2-binary>=2.9.0
+
+# 系统监控（导入时的内存/显存监控，可选）
+psutil>=5.9.0
+# pynvml>=11.5.0            # 取消注释以启用 GPU 显存监控
