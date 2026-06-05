@@ -1,0 +1,63 @@
+# Dual Tools Configuration: Google Search + Browse
+# This configuration enables both Google Search and Browse tools for multi-turn agent interactions
+
+tools:
+  # Tool 1: Google Search - for finding relevant web pages
+  - class_name: verl.tools.google_search_tool.GoogleSearchTool
+    config:
+      search_service_url: http://47.111.147.142:8010/search
+      num_workers: 400
+      rate_limit: 400
+      timeout: 200
+      type: native
+      stats_log_dir: ./log_search  # 统计日志目录
+    tool_schema:
+      type: function
+      function:
+        name: search
+        description: Perform Google web searches then returns a string of the top search results. Accepts multiple queries.
+        parameters:
+          type: object
+          properties:
+            query:
+              type: array
+              items:
+                type: string
+                description: The search query.
+              minItems: 1
+              description: The list of search queries.
+          required:
+            - query
+
+  # Tool 2: Browse - for extracting detailed information from specific web pages
+  - class_name: verl.tools.browse_tool.BrowseTool
+    config:
+      browse_service_url: http://127.0.0.1:8010/query
+      num_workers: 800
+      rate_limit: 800
+      timeout: 500
+      type: native
+      # URL 存在性检查：调用 RAG 服务的 /batch_check_url 端点，统计模型编造 URL 的比例
+      # 地址应与 search_service_url 同一个 RAG 服务（只需替换 endpoint）
+      # url_check_service_url: http://47.111.147.142:8010/batch_check_url  # 默认禁用，需要时取消注释
+      url_check_service_url: ""
+      url_check_timeout: 30
+    tool_schema:
+      type: function
+      function:
+        name: visit
+        description: Visit webpage(s) and return the summary of the content.
+        parameters:
+          type: object
+          properties:
+            url:
+              type: array
+              items:
+                type: string
+              description: The URL(s) of the webpage(s) to visit. Can be a single URL or an array of URLs.
+            goal:
+              type: string
+              description: The specific information goal for visiting webpage(s).
+          required:
+            - url
+            - goal

@@ -1,0 +1,12 @@
+# 使用 pip 代替 working_dir - 适用于共享存储环境
+# 假设 verl 已经在所有节点的 conda 环境中安装
+pip:
+  - --editable .   # path to your verl checkout; override if not running from the repo root
+env_vars:
+  TORCH_NCCL_AVOID_RECORD_STREAMS: "1"
+  CUDA_DEVICE_MAX_CONNECTIONS: "1"
+  HYDRA_FULL_ERROR: "1"
+  CUDA_HOME: "/usr/local/cuda-12.6"
+  WANDB_API_KEY: ""  # set in env / CLI; do not commit secrets
+  WANDB_DIR: "./wandb"
+  WANDB_CACHE_DIR: "./wandb/.cache"

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trajectory Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-wrapper label {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .file-input-wrapper label:hover {
+            background: #45a049;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 4px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-controls select, .filter-controls input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .trajectory-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .trajectory-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .trajectory-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .trajectory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .trajectory-id {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .score-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .score-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .score-failure {
+            background: #f44336;
+            color: white;
+        }
+
+        .question-section {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .question-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .question-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .output-section {
+            margin-bottom: 15px;
+        }
+
+        .output-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .output-content {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #2196F3;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .output-content.expanded {
+            max-height: none;
+        }
+
+        /* Structured output sections */
+        .think-section {
+            background: #fff9e6;
+            border-left: 3px solid #ffc107;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .think-label {
+            font-weight: bold;
+            color: #f57c00;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .think-content {
+            color: #555;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .answer-section {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .answer-content {
+            color: #1b5e20;
+            font-weight: 500;
+        }
+
+        .tool-call-section {
+            background: #e3f2fd;
+            border-left: 3px solid #2196f3;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .tool-call-label {
+            font-weight: bold;
+            color: #1565c0;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .json-viewer {
+            background: #263238;
+            color: #aed581;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 5px;
+        }
+
+        .json-key {
+            color: #80cbc4;
+        }
+
+        .json-string {
+            color: #ffcc80;
+        }
+
+        .json-number {
+            color: #ce93d8;
+        }
+
+        .json-boolean {
+            color: #90caf9;
+        }
+
+        .json-null {
+            color: #ef9a9a;
+        }
+
+        .collapsible-section {
+            margin-bottom: 8px;
+        }
+
+        .collapse-toggle {
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+            width: 100%;
+            padding: 5px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .collapse-toggle:hover {
+            background: rgba(0,0,0,0.06);
+        }
+
+        .collapse-icon {
+            display: inline-block;
+            transition: transform 0.2s;
+            margin-right: 5px;
+        }
+
+        .collapse-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .collapse-content {
+            margin-top: 5px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapse-content.collapsed {
+            display: none;
+        }
+
+        .target-section {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #ff9800;
+        }
+
+        .target-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .target-value {
+            color: #e65100;
+            font-weight: 500;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .expand-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s;
+        }
+
+        .expand-btn:hover {
+            background: #1976D2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .search-highlight {
+            background: yellow;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        .tool-calls {
+            margin-top: 10px;
+        }
+
+        .tool-call {
+            background: #e8f5e9;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .tool-name {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .page-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Trajectory Visualizer</h1>
+            <div class="controls">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" accept=".jsonl" multiple>
+                    <label for="fileInput">Load JSONL Files</label>
+                </div>
+                <div class="stats" id="stats"></div>
+            </div>
+        </header>
+
+        <div class="filter-section">
+            <div class="filter-controls">
+                <select id="scoreFilter">
+                    <option value="all">All Scores</option>
+                    <option value="success">Success Only (score > 0)</option>
+                    <option value="failure">Failure Only (score = 0)</option>
+                </select>
+                <select id="stepFilter">
+                    <option value="all">All Steps</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search in questions or outputs...">
+                <select id="itemsPerPage">
+                    <option value="10">10 per page</option>
+                    <option value="25" selected>25 per page</option>
+                    <option value="50">50 per page</option>
+                    <option value="100">100 per page</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="trajectoryList" class="trajectory-list"></div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <script>
+        let allTrajectories = [];
+        let filteredTrajectories = [];
+        let currentPage = 1;
+        let itemsPerPage = 25;
+
+        const fileInput = document.getElementById('fileInput');
+        const trajectoryList = document.getElementById('trajectoryList');
+        const statsContainer = document.getElementById('stats');
+        const scoreFilter = document.getElementById('scoreFilter');
+        const stepFilter = document.getElementById('stepFilter');
+        const searchInput = document.getElementById('searchInput');
+        const itemsPerPageSelect = document.getElementById('itemsPerPage');
+        const paginationContainer = document.getElementById('pagination');
+
+        fileInput.addEventListener('change', handleFileSelect);
+        scoreFilter.addEventListener('change', filterTrajectories);
+        stepFilter.addEventListener('change', filterTrajectories);
+        searchInput.addEventListener('input', filterTrajectories);
+        itemsPerPageSelect.addEventListener('change', (e) => {
+            itemsPerPage = parseInt(e.target.value);
+            currentPage = 1;
+            renderTrajectories();
+        });
+
+        async function handleFileSelect(event) {
+            const files = event.target.files;
+            if (files.length === 0) return;
+
+            trajectoryList.innerHTML = '<div class="loading">Loading trajectories...</div>';
+            allTrajectories = [];
+
+            for (const file of files) {
+                const text = await file.text();
+                const lines = text.trim().split('\n');
+
+                lines.forEach((line, index) => {
+                    if (line.trim()) {
+                        try {
+                            const trajectory = JSON.parse(line);
+                            trajectory._id = `${file.name}-${index}`;
+                            trajectory._fileName = file.name;
+                            allTrajectories.push(trajectory);
+                        } catch (e) {
+                            console.error('Error parsing line:', e);
+                        }
+                    }
+                });
+            }
+
+            updateStepFilter();
+            filterTrajectories();
+            updateStats();
+        }
+
+        function updateStepFilter() {
+            const steps = new Set(allTrajectories.map(t => t.step));
+            const sortedSteps = Array.from(steps).sort((a, b) => a - b);
+
+            stepFilter.innerHTML = '<option value="all">All Steps</option>';
+            sortedSteps.forEach(step => {
+                const option = document.createElement('option');
+                option.value = step;
+                option.textContent = `Step ${step}`;
+                stepFilter.appendChild(option);
+            });
+        }
+
+        function filterTrajectories() {
+            const scoreValue = scoreFilter.value;
+            const stepValue = stepFilter.value;
+            const searchValue = searchInput.value.toLowerCase();
+
+            filteredTrajectories = allTrajectories.filter(t => {
+                // Score filter
+                if (scoreValue === 'success' && t.score === 0) return false;
+                if (scoreValue === 'failure' && t.score !== 0) return false;
+
+                // Step filter
+                if (stepValue !== 'all' && t.step !== parseInt(stepValue)) return false;
+
+                // Search filter
+                if (searchValue) {
+                    const question = extractQuestion(t.input);
+                    const output = t.output || '';
+                    const combined = (question + ' ' + output).toLowerCase();
+                    if (!combined.includes(searchValue)) return false;
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderTrajectories();
+        }
+
+        function renderTrajectories() {
+            if (filteredTrajectories.length === 0) {
+                trajectoryList.innerHTML = '<div class="no-data">No trajectories loaded. Please select JSONL files.</div>';
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const pageTrajectories = filteredTrajectories.slice(startIdx, endIdx);
+
+            trajectoryList.innerHTML = pageTrajectories.map(t => renderTrajectory(t)).join('');
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredTrajectories.length / itemsPerPage);
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // Previous button
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">Previous</button>`;
+
+            // Page numbers
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            if (endPage - startPage < maxPagesToShow - 1) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            if (startPage > 1) {
+                html += `<button class="page-btn" onclick="changePage(1)">1</button>`;
+                if (startPage > 2) html += `<span class="page-btn" disabled>...</span>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="page-btn" disabled>...</span>`;
+                html += `<button class="page-btn" onclick="changePage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // Next button
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Next</button>`;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderTrajectories();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderTrajectory(trajectory) {
+            const question = extractQuestion(trajectory.input);
+            const output = trajectory.output || 'No output';
+            const targets = trajectory.gts?.target || [];
+            const score = trajectory.score || 0;
+            const step = trajectory.step || 'N/A';
+
+            const structuredOutput = parseStructuredOutput(output);
+
+            return `
+                <div class="trajectory-card">
+                    <div class="trajectory-header">
+                        <div class="trajectory-id">
+                            <strong>ID:</strong> ${trajectory._id}<br>
+                            <small>File: ${trajectory._fileName}</small>
+                        </div>
+                        <span class="score-badge ${score > 0 ? 'score-success' : 'score-failure'}">
+                            Score: ${score.toFixed(2)}
+                        </span>
+                    </div>
+
+                    <div class="question-section">
+                        <div class="question-label">Question:</div>
+                        <div class="question-text">${highlightSearch(question)}</div>
+                    </div>
+
+                    <div class="output-section">
+                        <div class="output-label">Output:</div>
+                        <div class="output-content" id="output-${trajectory._id}">
+                            ${renderStructuredOutput(structuredOutput, trajectory._id)}
+                        </div>
+                    </div>
+
+                    ${targets.length > 0 ? `
+                        <div class="target-section">
+                            <div class="target-label">Ground Truth Targets:</div>
+                            <div class="target-value">${targets.join(', ')}</div>
+                        </div>
+                    ` : ''}
+
+                    <div class="meta-info">
+                        <div class="meta-item">
+                            <strong>Step:</strong> ${step}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function extractQuestion(input) {
+            const match = input.match(/Question:\s*(.+?)(?:\nassistant|$)/s);
+            return match ? match[1].trim() : 'Question not found';
+        }
+
+        function parseStructuredOutput(output) {
+            const sections = [];
+
+            // Define all regex patterns with their types
+            const patterns = [
+                { type: 'think', regex: /<think>([\s\S]*?)<\/think>/g },
+                { type: 'answer', regex: /<answer>([\s\S]*?)<\/answer>/g },
+                { type: 'tool_call', regex: /<tool_call>([\s\S]*?)<\/tool_call>/g },
+                { type: 'tool_response', regex: /<tool_response>([\s\S]*?)<\/tool_response>/g }
+            ];
+
+            // Find all matches with their positions
+            const allMatches = [];
+
+            patterns.forEach(pattern => {
+                let match;
+                const regex = new RegExp(pattern.regex.source, 'g');
+                while ((match = regex.exec(output)) !== null) {
+                    allMatches.push({
+                        type: pattern.type,
+                        content: match[1].trim(),
+                        fullMatch: match[0],
+                        startIndex: match.index,
+                        endIndex: match.index + match[0].length
+                    });
+                }
+            });
+
+            // Sort by position in original text
+            allMatches.sort((a, b) => a.startIndex - b.startIndex);
+
+            // Parse JSON for tool_call and tool_response
+            allMatches.forEach(item => {
+                if (item.type === 'tool_call' || item.type === 'tool_response') {
+                    try {
+                        item.parsed = JSON.parse(item.content);
+                    } catch (e) {
+                        // Keep content as is if JSON parsing fails
+                    }
+                }
+            });
+
+            // Extract text between tags
+            let currentPos = 0;
+            const result = [];
+
+            allMatches.forEach(match => {
+                // Add any text before this match
+                if (match.startIndex > currentPos) {
+                    const textBefore = output.substring(currentPos, match.startIndex).trim();
+                    if (textBefore) {
+                        result.push({
+                            type: 'text',
+                            content: textBefore
+                        });
+                    }
+                }
+
+                // Add the matched section
+                result.push(match);
+                currentPos = match.endIndex;
+            });
+
+            // Add any remaining text after the last match
+            if (currentPos < output.length) {
+                const textAfter = output.substring(currentPos).trim();
+                if (textAfter) {
+                    result.push({
+                        type: 'text',
+                        content: textAfter
+                    });
+                }
+            }
+
+            // If no matches found, return the whole output as text
+            if (result.length === 0 && output.trim()) {
+                result.push({
+                    type: 'text',
+                    content: output.trim()
+                });
+            }
+
+            return result;
+        }
+
+        function renderStructuredOutput(sections, id) {
+            if (sections.length === 0) {
+                return '<div style="color: #999;">No output</div>';
+            }
+
+            let html = '';
+            let sectionIndex = 0;
+
+            sections.forEach((section, idx) => {
+                const sectionId = `section-${id}-${idx}`;
+
+                switch (section.type) {
+                    case 'think':
+                        html += `
+                            <div class="think-section">
+                                <div class="think-label">🤔 Thinking Process:</div>
+                                <div class="think-content">${escapeHtml(section.content)}</div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'answer':
+                        html += `
+                            <div class="answer-section">
+                                <div class="answer-label">✅ Answer:</div>
+                                <div class="answer-content">${escapeHtml(section.content)}</div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'tool_call':
+                        html += `
+                            <div class="tool-call-section">
+                                <div class="collapsible-section">
+                                    <div class="collapse-toggle" onclick="toggleCollapse('${sectionId}')">
+                                        <span class="collapse-icon" id="icon-${sectionId}">▼</span>
+                                        <span class="tool-call-label">🔧 Tool Call${section.parsed ? ': ' + section.parsed.name : ''}</span>
+                                    </div>
+                                    <div class="collapse-content" id="${sectionId}">
+                                        ${section.parsed ? renderJSON(section.parsed) : `<pre>${escapeHtml(section.content)}</pre>`}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'tool_response':
+                        html += `
+                            <div class="tool-call-section" style="background: #f3e5f5; border-left-color: #9c27b0;">
+                                <div class="collapsible-section">
+                                    <div class="collapse-toggle" onclick="toggleCollapse('${sectionId}')">
+                                        <span class="collapse-icon" id="icon-${sectionId}">▼</span>
+                                        <span class="tool-call-label" style="color: #6a1b9a;">📥 Tool Response</span>
+                                    </div>
+                                    <div class="collapse-content" id="${sectionId}">
+                                        ${section.parsed ? renderJSON(section.parsed) : `<pre>${escapeHtml(section.content)}</pre>`}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'text':
+                        if (section.content.trim()) {
+                            html += `
+                                <div style="margin-bottom: 10px; padding: 8px; background: #fafafa; border-radius: 4px;">
+                                    <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word; font-family: inherit;">${escapeHtml(section.content)}</pre>
+                                </div>
+                            `;
+                        }
+                        break;
+                }
+            });
+
+            return html;
+        }
+
+        function renderJSON(obj, indent = 0) {
+            const indentStr = '  '.repeat(indent);
+            let html = '<div class="json-viewer">';
+
+            function formatValue(key, value, level) {
+                const ind = '  '.repeat(level);
+                let result = '';
+
+                if (value === null) {
+                    result = `${ind}<span class="json-key">"${key}"</span>: <span class="json-null">null</span>`;
+                } else if (typeof value === 'boolean') {
+                    result = `${ind}<span class="json-key">"${key}"</span>: <span class="json-boolean">${value}</span>`;
+                } else if (typeof value === 'number') {
+                    result = `${ind}<span class="json-key">"${key}"</span>: <span class="json-number">${value}</span>`;
+                } else if (typeof value === 'string') {
+                    result = `${ind}<span class="json-key">"${key}"</span>: <span class="json-string">"${escapeHtml(value)}"</span>`;
+                } else if (Array.isArray(value)) {
+                    result = `${ind}<span class="json-key">"${key}"</span>: [\n`;
+                    value.forEach((item, idx) => {
+                        if (typeof item === 'object' && item !== null) {
+                            result += formatObject(item, level + 1);
+                        } else {
+                            result += formatValue('', item, level + 1).replace(/^[\s]*"":\s*/, ind + '  ');
+                        }
+                        if (idx < value.length - 1) result += ',';
+                        result += '\n';
+                    });
+                    result += `${ind}]`;
+                } else if (typeof value === 'object') {
+                    result = `${ind}<span class="json-key">"${key}"</span>: {\n`;
+                    result += formatObject(value, level + 1);
+                    result += `\n${ind}}`;
+                }
+
+                return result;
+            }
+
+            function formatObject(obj, level) {
+                const entries = Object.entries(obj);
+                return entries.map(([k, v], idx) => {
+                    const formatted = formatValue(k, v, level);
+                    return formatted + (idx < entries.length - 1 ? ',' : '');
+                }).join('\n');
+            }
+
+            html += '{\n';
+            html += formatObject(obj, 1);
+            html += '\n}';
+            html += '</div>';
+
+            return html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function toggleCollapse(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = document.getElementById(`icon-${sectionId}`);
+
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.classList.remove('collapsed');
+            } else {
+                content.classList.add('collapsed');
+                icon.classList.add('collapsed');
+            }
+        }
+
+        function extractToolCalls(output) {
+            const toolCalls = [];
+            const regex = /\{"name":\s*"([^"]+)",\s*"arguments":\s*(\{[^}]+\})\}/g;
+            let match;
+            while ((match = regex.exec(output)) !== null) {
+                try {
+                    toolCalls.push({
+                        name: match[1],
+                        arguments: JSON.parse(match[2])
+                    });
+                } catch (e) {
+                    // Skip invalid JSON
+                }
+            }
+            return toolCalls;
+        }
+
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        function highlightSearch(text) {
+            const searchValue = searchInput.value.trim();
+            if (!searchValue) return text;
+
+            const regex = new RegExp(`(${escapeRegExp(searchValue)})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function updateStats() {
+            const total = allTrajectories.length;
+            const successful = allTrajectories.filter(t => t.score > 0).length;
+            const failed = total - successful;
+            const avgScore = total > 0 ? (allTrajectories.reduce((sum, t) => sum + t.score, 0) / total).toFixed(2) : 0;
+
+            statsContainer.innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-label">Total</div>
+                    <div class="stat-value">${total}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Successful</div>
+                    <div class="stat-value">${successful}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Failed</div>
+                    <div class="stat-value">${failed}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Avg Score</div>
+                    <div class="stat-value">${avgScore}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Filtered</div>
+                    <div class="stat-value">${filteredTrajectories.length}</div>
+                </div>
+            `;
+        }
+
+        // Initial render
+        renderTrajectories();
+    </script>
+</body>
+</html>

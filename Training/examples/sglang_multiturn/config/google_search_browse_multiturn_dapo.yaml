@@ -1,0 +1,51 @@
+hydra:
+  searchpath:
+    - file://verl/trainer/config
+
+defaults:
+  - ppo_trainer
+  - _self_
+
+data:
+  max_prompt_length: 4096
+  max_response_length: 3000
+  train_batch_size: 512
+  val_batch_size: 256
+  gen_batch_size: ${data.train_batch_size}
+  return_raw_chat: True
+  shuffle: True
+  rollout_mix: disable
+
+reward_model:
+  reward_manager: dapo
+  overlong_buffer: 
+    enable: False # We try to avoid forgetting to set enable
+    len: 0
+    penalty_factor: 0.0
+    log: False
+
+algorithm:
+  filter_groups:
+    enable: True # We try to avoid forgetting to set enable
+    metric: null # acc / score / seq_reward / seq_final_reward / ...
+    max_num_gen_batches: 0 # Non-positive values mean no upper limit
+
+actor_rollout_ref:
+  hybrid_engine: True
+  rollout:
+    name: sglang_async
+    multi_turn:
+      enable: True
+      max_assistant_turns: 10  # 修复：max_turns → max_assistant_turns
+      format: qwen
+      tool_config_path: examples/sglang_multiturn/config/tool_config/google_search_browse_tool_config.yaml
+
+trainer:
+  project_name: 'search-mixture'  # Will be overridden by command line
+  experiment_name: 'mixed-dapo-batch-F1'  # Will be overridden by command line
+  logger: ['console', 'swanlab']
+  n_gpus_per_node: 8
+  nnodes: 1
+  save_freq: 100
+  test_freq: 50
+  total_epochs: 1

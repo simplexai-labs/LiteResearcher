@@ -1,0 +1,1 @@
+ray job submit --address=http://127.0.0.1:8265 --runtime-env=/share/project/wanli/Search_Agent/verl/verl/trainer/runtime_env.yaml -- bash /share/project/wanli/Search_Agent/verl/examples/sglang_multiturn/search_browser/qwen3_agentloop_packing.sh
