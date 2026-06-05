@@ -13,8 +13,8 @@ LiteResearcher. It contains exactly the code needed to reproduce our
 
 | Stage | Script | Setup | Data |
 |---|---|---|---|
-| **Stage 1** | `examples/sglang_multiturn/search_browser/stage1_rag_only.sh` | 8 × H20 (1 node) | `stage2_rag_only_masked_url.parquet`  (pure local-RAG, 13.9 K rows) |
-| **Stage 2** | `examples/sglang_multiturn/search_browser/stage_2_mix_rag_on_policy_48k.sh` | 16 × H20 (2 nodes) | `stage2_all_0210.parquet`  (RAG + Bio + Chem + Math + Wiki mix) |
+| **Stage 1** | `examples/sglang_multiturn/search_browser/stage1_rag_only.sh` | 8 × H20 (1 node) | [`stage1/train.parquet`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data) (pure local-RAG, 10,398 rows) |
+| **Stage 2** | `examples/sglang_multiturn/search_browser/stage_2_mix_rag_on_policy_48k.sh` | 16 × H20 (2 nodes) | [`stage2/train.parquet`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data) (25-bucket curriculum, 16,199 rows) |
 
 Stage 2 continues from a Stage-1 checkpoint (we used `global_step_220`).
 
@@ -124,15 +124,28 @@ Tool endpoints (`search_service_url`, `browse_service_url`) are configured in
 
 ## Data preparation
 
-The training scripts expect the following parquet files (all under `data/deepresearch_rl/`):
+The training data is published as a 🤗 dataset:
+**[`simplex-ai-inc/LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)**.
+One command gets you all three parquet files (28K prompts, 19 MB total):
 
-| File | Used by | Notes |
+```bash
+hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
+            --local-dir ./literesearcher_data
+```
+
+| File | Used by | Rows |
 |---|---|---|
-| `stage2_final/stage2_rag_only_masked_url.parquet` | Stage 1 train | 13.9 K rows — pure local-RAG synth (multi-hop + single-hop) |
-| `stage2/stage2_all_0210.parquet`                 | Stage 2 train | RAG mix + Bio + Chem + Math + Wiki |
-| `stage2/stage2_wiki.parquet`                     | Stage 1+2 val | 128 wiki questions for quick val |
+| `literesearcher_data/stage1/train.parquet`     | Stage 1 train | 10,398 — pure local-RAG warmup |
+| `literesearcher_data/stage2/train.parquet`     | Stage 2 train | 16,199 — 25-bucket difficulty + diversity curriculum |
+| `literesearcher_data/validation/wiki.parquet`  | Stage 1+2 val | 1,694 — shared Wikipedia QA monitoring set |
 
-Rebuild from raw sources via:
+Then point the launcher env-vars at the downloaded files (see Stage 1/2 sections
+below). The dataset card on Hugging Face documents the full schema and curriculum
+design.
+
+### Rebuilding from raw sources (optional)
+
+If you want to regenerate the parquets locally from raw QA dumps:
 
 ```bash
 # Stage-1 RAG data (multi-hop + single-hop, mask URLs in tool responses)

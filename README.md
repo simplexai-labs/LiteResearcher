@@ -61,7 +61,7 @@ Each trajectory renders 40–170 steps showing the model's `think` → `search` 
 
 ```
 ├── Inference/              # Inference & evaluation (released)
-├── Training/               # RL training (coming soon)
+├── Training/               # RL training — GRPO + curriculum (released)
 ├── DataGen/                # Data synthesis (coming soon)
 ├── Environment/            # Local search/browse environment (released)
 └── docs/                   # Project page
@@ -84,14 +84,51 @@ bash scripts/run_all.sh
 
 See [`Inference/README.md`](Inference/README.md) for detailed configuration and usage.
 
+## Quick Start — Training
+
+The full two-stage RL training pipeline (GRPO + TIS + difficulty-aware curriculum)
+is in [`Training/`](Training/), and the training data is hosted on
+[🤗 `LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data).
+
+```bash
+cd Training
+pip install -e .[sglang]                   # install verl-based training stack
+cp examples/sglang_multiturn/search_browser/tool_backend/.env.example \
+   examples/sglang_multiturn/search_browser/tool_backend/.env
+# Edit .env: set PG_*, SUMMARY_API_*, LLM_JUDGE_API_*, optional SCRAPEDO_API_KEY
+
+# One-shot data download (28K prompts, 19 MB)
+hf download simplex-ai-inc/LiteResearcher-Data --repo-type dataset \
+            --local-dir ./literesearcher_data
+
+# Stage 1 — single node 8×H20, RAG-only warmup, 32K ctx
+export TRAIN_DATA=./literesearcher_data/stage1/train.parquet
+export VAL_DATA=./literesearcher_data/validation/wiki.parquet
+export MODEL_PATH=/path/to/qwen3-4b-sft-cold-start
+bash examples/sglang_multiturn/search_browser/stage1_rag_only.sh
+
+# Stage 2 — 2 nodes × 8 H20, mix curriculum, 48K ctx, resume from Stage-1 step ~220
+export TRAIN_DATA=./literesearcher_data/stage2/train.parquet
+export VAL_DATA=./literesearcher_data/validation/wiki.parquet
+export MODEL_PATH=/path/to/stage1-ckpt/global_step_220
+bash examples/sglang_multiturn/search_browser/stage_2_mix_rag_on_policy_48k.sh
+```
+
+See [`Training/README.md`](Training/README.md) for the full reproduction recipe
+(including the SFT cold-start prerequisite, environment variables, and config
+knobs) and the
+[dataset card](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
+for the data schema and curriculum design.
+
 ## Release Plan
 
 - [x] Evaluation code
 - [x] Project page
-- [x] Model weights (LiteResearcher-4B)
+- [x] Model weights ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B))
 - [x] Local search/browse environment setup ([`Environment/`](Environment/))
 - [x] Search corpus — 32M records ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
-- [ ] Training code (GRPO + curriculum RL)
+- [x] Training code — GRPO + curriculum RL ([`Training/`](Training/))
+- [x] Training data — Stage-1 & Stage-2 prompts ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data))
 - [ ] Data synthesis pipeline
 
 ## Citation
