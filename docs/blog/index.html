@@ -263,6 +263,17 @@
     .mini-table tr.ours td { background: var(--accent-soft); }
     .mini-table tr.ours td.model { color: var(--accent-deep); }
     .mini-table td .num { font-feature-settings: "tnum"; color: var(--ink); font-weight: 600; }
+    .table-scroll { overflow-x: auto; margin: 22px 0; -webkit-overflow-scrolling: touch; }
+    .table-scroll .mini-table { margin: 0; min-width: 660px; }
+    .mini-table th a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--line); }
+    .mini-table th a:hover { color: var(--accent-deep); border-color: var(--accent); }
+
+    /* References */
+    .refs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 10px; }
+    @media (max-width: 720px) { .refs-grid { grid-template-columns: 1fr; gap: 24px; } }
+    .refs-col h5 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+    .refs-col a { display: block; font-size: 0.86rem; color: var(--text); text-decoration: none; padding: 4px 0; line-height: 1.4; transition: color .15s ease; }
+    .refs-col a:hover { color: var(--accent-deep); }
 
     /* Company capability cards */
     .cap-row {
@@ -508,47 +519,55 @@
     <div class="section-eyebrow">The receipts</div>
     <h2>A 4B model in the frontier band<span class="punct">.</span></h2>
     <div class="prose">
-      <p>Open-source SOTA on the benchmarks that matter — topping GPT-5-high on Xbench-DeepSearch and matching Claude-4.5-Sonnet on GAIA, while small enough to serve for pennies.</p>
+      <p>Open-source SOTA across the deep-research benchmarks that matter — best open numbers on <strong>GAIA</strong>, <strong>WebWalker</strong> and <strong>Xbench-DeepSearch</strong> (78.0, edging out GPT-5-high), and competitive across the board. Every score below is reported in the paper, measured against each baseline's published numbers.</p>
     </div>
-    <table class="mini-table">
-      <thead>
-        <tr><th>System</th><th>Params</th><th>GAIA</th><th>Xbench-DS</th></tr>
-      </thead>
-      <tbody>
-        <tr class="ours">
-          <td class="model">LiteResearcher-4B</td>
-          <td>4B</td>
-          <td><span class="num">71.3</span></td>
-          <td><span class="num">78.0</span></td>
-        </tr>
-        <tr>
-          <td class="model">OpenAI GPT-5-high</td>
-          <td>frontier</td>
-          <td>76.4</td>
-          <td>77.8</td>
-        </tr>
-        <tr>
-          <td class="model">Claude-4.5-Sonnet</td>
-          <td>frontier</td>
-          <td>71.2</td>
-          <td>66.0</td>
-        </tr>
-        <tr>
-          <td class="model">GLM-4.6</td>
-          <td>frontier</td>
-          <td>71.9</td>
-          <td>70.0</td>
-        </tr>
-        <tr>
-          <td class="model">Tongyi DeepResearch</td>
-          <td>30B</td>
-          <td>70.9</td>
-          <td>75.0</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="mini-table">
+        <thead>
+          <tr>
+            <th>Model</th><th>Params</th>
+            <th><a href="https://arxiv.org/abs/2311.12983" target="_blank">GAIA</a></th>
+            <th><a href="https://arxiv.org/abs/2409.12941" target="_blank">Frames</a></th>
+            <th><a href="https://arxiv.org/abs/2501.14249" target="_blank">HLE</a></th>
+            <th><a href="https://arxiv.org/abs/2504.12516" target="_blank">BrowseComp</a></th>
+            <th><a href="https://arxiv.org/abs/2501.07572" target="_blank">WebWalker</a></th>
+            <th><a href="https://arxiv.org/abs/2506.13651" target="_blank">Xbench-DS</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ours">
+            <td class="model">LiteResearcher-4B</td><td>4B</td>
+            <td><span class="num">71.3</span></td><td><span class="num">83.1</span></td><td><span class="num">22.0</span></td><td><span class="num">27.5</span></td><td><span class="num">72.7</span></td><td><span class="num">78.0</span></td>
+          </tr>
+          <tr>
+            <td class="model">OpenAI GPT-5-high</td><td>frontier</td>
+            <td>76.4</td><td>–</td><td>35.2</td><td>54.9</td><td>–</td><td>77.8</td>
+          </tr>
+          <tr>
+            <td class="model">Claude-4.5-Sonnet</td><td>frontier</td>
+            <td>71.2</td><td>85.0</td><td>24.5</td><td>19.6</td><td>–</td><td>66.0</td>
+          </tr>
+          <tr>
+            <td class="model">GLM-4.6</td><td>frontier</td>
+            <td>71.9</td><td>–</td><td>30.4</td><td>45.1</td><td>–</td><td>70.0</td>
+          </tr>
+          <tr>
+            <td class="model">DeepSeek-V3.2</td><td>frontier</td>
+            <td>63.5</td><td>80.2</td><td>40.8</td><td>67.6</td><td>–</td><td>71.0</td>
+          </tr>
+          <tr>
+            <td class="model">Tongyi DeepResearch</td><td>30B</td>
+            <td>70.9</td><td>90.6</td><td>32.9</td><td>43.4</td><td>72.2</td><td>75.0</td>
+          </tr>
+          <tr>
+            <td class="model">AgentCPM-Explore</td><td>4B</td>
+            <td>63.9</td><td>82.7</td><td>19.1</td><td>24.1</td><td>68.1</td><td>70.0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="prose">
-      <p style="font-size:0.86rem; color:var(--muted);">Full tables and ablations are in the paper.</p>
+      <p style="font-size:0.82rem; color:var(--muted);">Accuracy / pass-rate (%) as reported in the LiteResearcher <a href="https://arxiv.org/abs/2604.17931" target="_blank">paper</a> (Table 1), evaluated under a shared tool setup; baseline numbers from each model's official report. “–” = not reported. The full eight-benchmark table and ablations are in the paper.</p>
     </div>
   </section>
 
@@ -625,6 +644,40 @@
       <a class="btn btn-outline" href="../cases/" target="_blank">Trajectories</a>
     </div>
   </div>
+
+  <!-- References & sources -->
+  <section class="refs">
+    <div class="section-eyebrow">References &amp; sources</div>
+    <h2>Every number, sourced<span class="punct">.</span></h2>
+    <div class="refs-grid">
+      <div class="refs-col">
+        <h5>LiteResearcher</h5>
+        <a href="https://arxiv.org/abs/2604.17931" target="_blank">Paper — arXiv:2604.17931</a>
+        <a href="https://github.com/simplex-ai-inc/LiteResearcher" target="_blank">Code — GitHub</a>
+        <a href="https://huggingface.co/simplex-ai-inc/LiteResearcher-4B" target="_blank">Model — Hugging Face</a>
+        <a href="https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data" target="_blank">Dataset — Hugging Face</a>
+      </div>
+      <div class="refs-col">
+        <h5>Benchmarks</h5>
+        <a href="https://arxiv.org/abs/2311.12983" target="_blank">GAIA — Mialon et al., ICLR 2024</a>
+        <a href="https://arxiv.org/abs/2409.12941" target="_blank">FRAMES — Krishna et al., NAACL 2025</a>
+        <a href="https://arxiv.org/abs/2501.14249" target="_blank">Humanity's Last Exam — Phan et al., 2025</a>
+        <a href="https://arxiv.org/abs/2504.12516" target="_blank">BrowseComp — Wei et al., OpenAI 2025</a>
+        <a href="https://arxiv.org/abs/2501.07572" target="_blank">WebWalker — Wu et al., 2025</a>
+        <a href="https://arxiv.org/abs/2506.13651" target="_blank">Xbench-DeepSearch — Chen et al., 2025</a>
+      </div>
+      <div class="refs-col">
+        <h5>Baselines</h5>
+        <a href="https://openai.com/index/introducing-gpt-5/" target="_blank">OpenAI — GPT-5</a>
+        <a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank">Anthropic — Claude Sonnet 4.5</a>
+        <a href="https://arxiv.org/abs/2510.24701" target="_blank">Tongyi DeepResearch</a>
+        <a href="https://arxiv.org/abs/2508.06471" target="_blank">Zhipu — GLM-4.5 / 4.6</a>
+        <a href="https://arxiv.org/abs/2412.19437" target="_blank">DeepSeek-V3</a>
+        <a href="https://moonshotai.github.io/Kimi-Researcher/" target="_blank">Moonshot — Kimi-Researcher</a>
+        <a href="https://www.minimax.io/news/minimax-m2" target="_blank">MiniMax-M2</a>
+      </div>
+    </div>
+  </section>
 
 </article>
 
