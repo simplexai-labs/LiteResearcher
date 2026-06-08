@@ -571,6 +571,43 @@
     </div>
   </section>
 
+  <!-- How we built it -->
+  <section>
+    <div class="section-eyebrow">How we built it</div>
+    <h2>A virtual world for agentic RL<span class="punct">.</span></h2>
+    <div class="prose">
+      <p>The reason a 4B model punches at frontier weight isn't a bigger network — it's <strong>where it trains</strong>. Scaling agentic RL on the live web is slow, unstable, and expensive: every rollout hits real search APIs, so noise and cost compound with each step. We removed that ceiling by rebuilding the environment.</p>
+    </div>
+
+    <figure class="figure">
+      <img src="../static/overview.png" alt="LiteResearcher training framework overview">
+      <figcaption>LiteResearcher trains entirely inside a local search/browse world that mirrors real-web dynamics — no live API in the RL loop.</figcaption>
+    </figure>
+
+    <div class="steps">
+      <div class="step">
+        <span class="kicker">The bottleneck</span>
+        <h3>Live-web RL doesn't scale</h3>
+        <p>Hand-crafted synthetic tasks don't elicit genuine search behavior, and depending on live search during RL injects instability and cost that compound with every rollout. Together they cap how far agentic RL can go.</p>
+      </div>
+      <div class="step">
+        <span class="kicker">The world</span>
+        <h3>A lite virtual world that mirrors the real web</h3>
+        <p>We construct a local search/browse environment tuned to reproduce real retrieval statistics — partial relevance, noisy snippets, multi-hop chains. Training against it preserves realistic tool-use dynamics while removing every external API call from the loop: <strong>73.2M tool calls at zero marginal cost, 10–46× faster rollouts</strong>.</p>
+      </div>
+      <div class="step">
+        <span class="kicker">The recipe</span>
+        <h3>Cold-start SFT → curriculum, on-policy RL</h3>
+        <p>From a Qwen3-4B-Thinking start, a short SFT stage teaches tool use; then GRPO-based on-policy RL — no KL penalty, no entropy term — climbs a difficulty curriculum across 700+ stable steps, delivering monotonic gains instead of collapse.</p>
+      </div>
+    </div>
+
+    <figure class="figure">
+      <img src="../static/training_dynamics.png" alt="LiteResearcher training dynamics across the RL run">
+      <figcaption>Accuracy and tool-use competence rise steadily across the RL run as the curriculum advances — the stability a deterministic local world makes possible.</figcaption>
+    </figure>
+  </section>
+
   <!-- Built at Simplex AI -->
   <section>
     <div class="section-eyebrow">Built at Simplex AI</div>
