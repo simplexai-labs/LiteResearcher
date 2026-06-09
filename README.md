@@ -127,7 +127,7 @@ for the data schema and curriculum design.
 - [x] Evaluation code
 - [x] Project page
 - [x] Model weights — RL ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B))
-- [x] Model weights — SFT cold-start ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT)) **🆕**
+- [x] Model weights — SFT cold-start ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT), built on [`Qwen3-4B-Thinking-2507`](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507)) **🆕**
 - [x] Local search/browse environment setup ([`Environment/`](Environment/))
 - [x] Search corpus — 32M records ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
 - [x] Training code — GRPO + curriculum RL ([`Training/`](Training/))

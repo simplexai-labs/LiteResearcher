@@ -169,8 +169,10 @@ for raw-source layout and schema.
 
 ### Pre-step: SFT cold-start
 
-Stage-1 RL initializes from a Qwen3-4B that has been SFT'd on 68.2 K
-agentic-tool-use trajectories distilled from Tongyi-DeepResearch-30B.
+Stage-1 RL initializes from a **`Qwen3-4B-Thinking-2507`** that has been SFT'd on
+68.2 K agentic-tool-use trajectories distilled from Tongyi-DeepResearch-30B.
+We pick the Thinking-2507 base so the policy already carries long
+chain-of-thought (`<think>...</think>`) behaviour into the RL stage.
 
 > **🆕 Our SFT cold-start checkpoint is released:
 > [`simplex-ai-inc/LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT).**
@@ -181,12 +183,12 @@ We trained ours with **LLaMA-Factory**:
 
 ```bash
 # Hyper-params we used (LLaMA-Factory):
-#   base model        : Qwen/Qwen3-4B
+#   base model        : Qwen/Qwen3-4B-Thinking-2507
 #   training examples : 68.2 K  (distilled deep-research trajectories)
-#   max length        : 64 K
-#   global batch size : 128
-#   epochs            : 3  (we used the ckpt-533 snapshot)
-#   lr / scheduler    : 1e-5 cosine, 3 % warmup
+#   max length        : 64 K   (cutoff_len = 65536)
+#   global batch size : 128    (per-device bs 2 × grad-accum 8 × 8 GPUs)
+#   epochs            : 1      (we use the ckpt-533 snapshot = 1 full epoch)
+#   lr / scheduler    : 2e-5 cosine, 10 % warmup
 ```
 
 A SFT cold-start is a hard requirement — pure RL from a vanilla Qwen3-4B does
