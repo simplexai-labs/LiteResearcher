@@ -269,7 +269,7 @@
     .mini-table th a:hover { color: var(--accent-deep); border-color: var(--accent); }
 
     /* References */
-    .refs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 10px; }
+    .refs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 28px; margin-top: 10px; }
     @media (max-width: 720px) { .refs-grid { grid-template-columns: 1fr; gap: 24px; } }
     .refs-col h5 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
     .refs-col a { display: block; font-size: 0.86rem; color: var(--text); text-decoration: none; padding: 4px 0; line-height: 1.4; transition: color .15s ease; }
@@ -685,6 +685,12 @@
         <a href="https://arxiv.org/abs/2412.19437" target="_blank">DeepSeek-V3</a>
         <a href="https://moonshotai.github.io/Kimi-Researcher/" target="_blank">Moonshot — Kimi-Researcher</a>
         <a href="https://www.minimax.io/news/minimax-m2" target="_blank">MiniMax-M2</a>
+      </div>
+      <div class="refs-col">
+        <h5>Ecosystem</h5>
+        <a href="https://exa.ai" target="_blank">Exa — web search for AI agents</a>
+        <a href="https://parallel.ai" target="_blank">Parallel — deep research API</a>
+        <a href="https://tavily.com" target="_blank">Tavily — search API for agents</a>
       </div>
     </div>
   </section>
