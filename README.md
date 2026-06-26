@@ -33,6 +33,10 @@
 <p><em>Left: Xbench-DeepSearch accuracy vs. model size — our 4B model reaches 78.0%, matching/surpassing 100×+ larger systems. Right: Average rollout time and cost per turn — LiteResearcher is the fastest and cheapest.</em></p>
 </div>
 
+## Built for lev8
+
+LiteResearcher is the engine behind **[lev8](https://lev8.com)**, Simplex AI's parallel agentic search platform — frontier-grade deep research, fast and cheap enough to run hundreds of agents per query. **Explore → [lev8.com](https://lev8.com)**
+
 ## Results
 
 <div align="center">
