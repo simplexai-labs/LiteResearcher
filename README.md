@@ -31,11 +31,11 @@
 
 **LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5.**
 
-| Key number | Result | Why it matters |
-|------------|--------|----------------|
-| **Open-source SOTA** | **71.3% GAIA** / **78.0% Xbench-DS** | Beats 30B open-source agents on the headline deep-research benchmarks and surpasses Claude-4.5-Sonnet on GAIA and GPT-5-high on Xbench-DS. |
-| **+15.7 GAIA points from RL** | SFT **55.6%** → RL **71.3%** | Shows the gain comes from scalable RL; AgentCPM-Explore reports only **+3.8** points when training with live web interaction. |
-| **73.2M local tool calls** | **$0 marginal API cost** | The same RL tool-call volume would cost **$59K-$243K** with live web search/browse APIs. |
+**Highlights**
+
+- **Open-source SOTA** — **71.3% GAIA** / **78.0% Xbench-DS**, beating 30B open-source agents and surpassing Claude-4.5-Sonnet on GAIA and GPT-5-high on Xbench-DS.
+- **+15.7 GAIA points from RL** — SFT **55.6%** → RL **71.3%**, vs. only **+3.8** for AgentCPM-Explore when training with live web interaction.
+- **$0 marginal API cost** — **73.2M** local tool calls during RL; the same volume would cost **$59K–$243K** via live search/browse APIs.
 
 **LiteResearcher** makes Agentic RL scalable by replacing live-web interaction during RL with a stable local search/browse environment that mirrors real-world search dynamics while eliminating per-call API cost.
 
