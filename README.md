@@ -29,7 +29,7 @@
 - 🎯 RL model weights released ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B))
 - 📈 Evaluation code & project page released
 
-**LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5.**
+**LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost — matching frontier systems at a fraction of the size.**
 
 **Highlights**
 
