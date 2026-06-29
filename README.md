@@ -5,14 +5,10 @@
 ### A Low-Cost, Scalable Agentic RL Training Framework for Deep Research Agent
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.17931)
-[![Webpage](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplexai-labs.github.io/LiteResearcher/)
-[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
-[![Corpus](https://img.shields.io/badge/Corpus%2032M-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus)
-[![Model](https://img.shields.io/badge/Model%20(RL)-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)
-[![SFT Model](https://img.shields.io/badge/Model%20(SFT%20cold--start)-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT)
-[![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplexai-labs.github.io/LiteResearcher/cases/)
-[![lev8](https://img.shields.io/badge/Powering-lev8-7c5cff)](https://lev8.com)
-![Python](https://img.shields.io/badge/Python-3.9%2B-3776ab?logo=python&logoColor=white)
+[![Project](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplexai-labs.github.io/LiteResearcher/)
+[![Models](https://img.shields.io/badge/Models-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc)
+[![Datasets](https://img.shields.io/badge/Datasets-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc)
+[![Live Demo](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplexai-labs.github.io/LiteResearcher/cases/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
 **If you like our project, please give us a star ⭐ on GitHub for the latest update.**
