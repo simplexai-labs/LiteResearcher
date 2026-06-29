@@ -5,12 +5,12 @@
 ### A Low-Cost, Scalable Agentic RL Training Framework for Deep Research Agent
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.17931)
-[![Webpage](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplex-ai-inc.github.io/LiteResearcher/)
+[![Webpage](https://img.shields.io/badge/Project-Webpage-0a0a0a?logo=githubpages&logoColor=white)](https://simplexai-labs.github.io/LiteResearcher/)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
 [![Corpus](https://img.shields.io/badge/Corpus%2032M-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus)
 [![Model](https://img.shields.io/badge/Model%20(RL)-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)
 [![SFT Model](https://img.shields.io/badge/Model%20(SFT%20cold--start)-HuggingFace-ffcc00?logo=huggingface&logoColor=black)](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT)
-[![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplex-ai-inc.github.io/LiteResearcher/cases/)
+[![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplexai-labs.github.io/LiteResearcher/cases/)
 [![lev8](https://img.shields.io/badge/Powering-lev8-7c5cff)](https://lev8.com)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-3776ab?logo=python&logoColor=white)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
@@ -70,7 +70,7 @@ Three pillars enable low-cost, scalable Agentic RL:
 
 We release 15 hand-audited rollout trajectories from LiteResearcher-4B across 8 deep-research benchmarks (GAIA, Xbench-DS, Frame, HLE, Seal-0, WebwalkerQA, BrowseComp, BrowseComp-zh). Each case is judged `correct`, leak-free, and reviewed by 4 independent Opus-4.7 (1M context) subagents to verify the answer is derived from cited evidence (no fabrication, no hedged guess).
 
-**🔎 Live viewer:** https://simplex-ai-inc.github.io/LiteResearcher/cases/
+**🔎 Live viewer:** https://simplexai-labs.github.io/LiteResearcher/cases/
 
 Each trajectory renders 40–170 steps showing the model's `think` → `search` → `visit` → `answer` chain, with tool queries, visited URLs, and tool responses inline. Source data lives under [`docs/cases/`](docs/cases/).
 
