@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="logo_cropped.png" width="400">
+# LiteResearcher
 
 ### A Low-Cost, Scalable Agentic RL Training Framework for Deep Research Agent
 
