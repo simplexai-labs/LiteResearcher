@@ -74,6 +74,8 @@
 
 <sub>All scores are accuracy (%); **–** = not reported. `*` uses a 64k context window with a summarization-based memory mechanism (others use 128k). Across all 8 benchmarks, LiteResearcher-4B is the best ≤8B agent on 6 (Mirothinker-8B leads on BrowseComp and BrowseComp-ZH).</sub>
 
+> **Full results** across all 8 benchmarks (GAIA, BrowseComp, BrowseComp-ZH, HLE, Frames, WebWalker, Seal-0, Xbench-DS) are reported in the [paper](https://arxiv.org/abs/2604.17931) and [`training/README.md`](training/README.md).
+
 ## Method Overview
 
 <div align="center">
