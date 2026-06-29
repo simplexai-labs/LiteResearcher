@@ -44,35 +44,35 @@
 
 ## Results
 
-**Main results.** Comparison across commercial models and open-source deep research agents on eight benchmarks. **Best open-source results are in bold.**
+**Main results** on four representative benchmarks. **Best score among ≤8B models is in bold.** Full results across all 8 benchmarks are in the [paper](https://arxiv.org/abs/2604.17931) and [`training/README.md`](training/README.md).
 
-| Model | GAIA | BrowseComp | BrowseComp-ZH | HLE | Frames | WebWalker | Seal-0 | Xbench-DS |
-|:------|----:|----:|----:|----:|----:|----:|----:|----:|
-| **Commercial Models** | | | | | | | | |
-| Claude-4-Sonnet | 68.3 | 12.2 | 29.1 | 20.3 | 80.7 | 61.7 | – | 64.6 |
-| Claude-4.5-Sonnet | 71.2 | 19.6 | 40.8 | 24.5 | 85.0 | – | 53.4 | 66.0 |
-| DeepSeek-V3.2 | 63.5 | 67.6 | 65.0 | 40.8 | 80.2 | – | 38.5 | 71.0 |
-| DeepSeek-V3.1 | 63.1 | 30.0 | 49.2 | 29.8 | 83.7 | 61.2 | – | 71.0 |
-| Minimax-M2 | 75.7 | 44.0 | 48.5 | 31.8 | – | – | – | 72.0 |
-| OpenAI-GPT-5-high | 76.4 | 54.9 | 65.0 | 35.2 | – | – | 51.4 | 77.8 |
-| GLM-4.6 | 71.9 | 45.1 | 49.5 | 30.4 | – | – | – | 70.0 |
-| Kimi-Researcher | – | – | – | 26.9 | 78.8 | – | 36.0 | 69.0 |
-| Kimi-K2-0905 | 60.2 | 7.4 | 22.2 | 21.7 | 58.1 | – | 25.2 | 61.0 |
-| **Open-Source Models (>8B)** | | | | | | | | |
-| Tongyi DeepResearch-30B | 70.9 | 43.4 | 46.7 | 32.9 | 90.6 | 72.2 | – | 75.0 |
-| ASearcher-QWQ-v2 | 58.7 | – | – | – | 74.5 | – | – | 51.1 |
-| WebSailor-30B | 53.2 | – | – | – | – | – | – | 53.3 |
-| WebDancer-QwQ | 51.5 | 3.8 | 18.0 | – | – | 47.9 | – | 38.3 |
-| DeepMiner-32B | 58.7 | 33.5 | 40.1 | – | – | – | – | 62.0 |
-| AFM-RL-32B | 55.3 | 11.1 | – | 18.0 | – | 63.0 | – | – |
-| SFR-DeepResearch | 66.0 | – | – | 28.7 | 82.8 | – | – | – |
-| **Small Models (≤8B)** | | | | | | | | |
-| Mirothinker-8B | 66.4 | **31.1** | **40.2** | 21.5 | 80.6 | 60.6 | 40.4 | 60.6 |
-| WebExplorer-8B | 50.0 | 15.7 | 32.0 | 17.3 | 75.7 | 62.7 | – | 53.7 |
-| AgentCPM-Explore-4B | 63.9 | 24.1 | 29.1 | 19.1 | 82.7 | 68.1 | 40.5 | 70.0 |
-| **LiteResearcher-4B** | **71.3** | 27.5* | 32.5* | **22.0** | **83.1** | **72.7** | **41.8** | **78.0** |
+| Model | GAIA | BrowseComp | WebWalker | Xbench-DS |
+|:------|----:|----:|----:|----:|
+| **Commercial Models** | | | | |
+| Claude-4-Sonnet | 68.3 | 12.2 | 61.7 | 64.6 |
+| Claude-4.5-Sonnet | 71.2 | 19.6 | – | 66.0 |
+| DeepSeek-V3.2 | 63.5 | 67.6 | – | 71.0 |
+| DeepSeek-V3.1 | 63.1 | 30.0 | 61.2 | 71.0 |
+| Minimax-M2 | 75.7 | 44.0 | – | 72.0 |
+| OpenAI-GPT-5-high | 76.4 | 54.9 | – | 77.8 |
+| GLM-4.6 | 71.9 | 45.1 | – | 70.0 |
+| Kimi-Researcher | – | – | – | 69.0 |
+| Kimi-K2-0905 | 60.2 | 7.4 | – | 61.0 |
+| **Open-Source Models (>8B)** | | | | |
+| Tongyi DeepResearch-30B | 70.9 | 43.4 | 72.2 | 75.0 |
+| ASearcher-QWQ-v2 | 58.7 | – | – | 51.1 |
+| WebSailor-30B | 53.2 | – | – | 53.3 |
+| WebDancer-QwQ | 51.5 | 3.8 | 47.9 | 38.3 |
+| DeepMiner-32B | 58.7 | 33.5 | – | 62.0 |
+| AFM-RL-32B | 55.3 | 11.1 | 63.0 | – |
+| SFR-DeepResearch | 66.0 | – | – | – |
+| **Small Models (≤8B)** | | | | |
+| Mirothinker-8B | 66.4 | **31.1** | 60.6 | 60.6 |
+| WebExplorer-8B | 50.0 | 15.7 | 62.7 | 53.7 |
+| AgentCPM-Explore-4B | 63.9 | 24.1 | 68.1 | 70.0 |
+| **LiteResearcher-4B** | **71.3** | 27.5* | **72.7** | **78.0** |
 
-<sub>All scores are accuracy (%); **–** = not reported. Among **≤8B models**, the best score on each benchmark is in **bold** — LiteResearcher-4B leads on 6 of 8 (Mirothinker-8B leads on BrowseComp and BrowseComp-ZH). Results without `*` use a 128k context window; `*` results use a 64k window with a memory mechanism that, on reaching the context limit, calls a summarization model to compress each prior tool-interaction step into one sentence.</sub>
+<sub>All scores are accuracy (%); **–** = not reported. `*` uses a 64k context window with a summarization-based memory mechanism (others use 128k). Across all 8 benchmarks, LiteResearcher-4B is the best ≤8B agent on 6 (Mirothinker-8B leads on BrowseComp and BrowseComp-ZH).</sub>
 
 ## Method Overview
 
