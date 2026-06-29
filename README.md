@@ -66,7 +66,7 @@ Three pillars enable low-cost, scalable Agentic RL:
 
 ## Trajectory Cases
 
-We release 15 hand-audited rollout trajectories from LiteResearcher-4B across 8 deep-research benchmarks (GAIA, Xbench-DS, Frames, HLE, Seal-0, WebWalker, BrowseComp, BrowseComp-ZH). Each case is judged `correct`, leak-free, and reviewed by 4 independent Opus-4.7 (1M context) subagents.
+We release 15 hand-audited rollout trajectories from LiteResearcher-4B across 8 deep-research benchmarks (GAIA, Xbench-DS, Frames, HLE, Seal-0, WebWalker, BrowseComp, BrowseComp-ZH).
 
 **🔎 Live viewer:** https://simplexai-labs.github.io/LiteResearcher/cases/
 
