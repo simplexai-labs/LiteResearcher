@@ -38,16 +38,16 @@ GROUPS = [
 # benchmarks where LiteResearcher is best among <=8B (bold/highlight in its row)
 LITE_BEST = {"GAIA", "HLE", "Frames", "WebWalker", "Seal-0", "Xbench-DS"}
 
-# ---- palette (coral/red, matching compare.png) ----
-PURPLE      = "#c0392b"   # primary accent (red, matches the "Ours" star above)
-PURPLE_DARK = "#962d22"   # darker red for emphasis
+# ---- palette (navy blue, matching the Method Overview figure) ----
+PURPLE      = "#3d5180"   # primary accent (navy, matches overview.png)
+PURPLE_DARK = "#2c3c63"   # darker navy for emphasis
 HEADER_BG   = "#ffffff"
-GROUP_BG    = "#fbeae7"   # light coral band for group separators
-ROW_ALT     = "#fdf5f3"   # very light coral for alternating rows
-HILITE_BG   = "#f9ddd8"   # LiteResearcher row highlight
-TEXT        = "#3a2a28"
-MUTED       = "#b39b97"
-BORDER      = "#f0d8d2"
+GROUP_BG    = "#e9edf5"   # light navy band for group separators
+ROW_ALT     = "#f5f7fb"   # very light navy for alternating rows
+HILITE_BG   = "#dde4f0"   # LiteResearcher row highlight
+TEXT        = "#2a3142"
+MUTED       = "#9aa1b3"
+BORDER      = "#d6deec"
 
 MONO = "DejaVu Sans Mono"
 SANS = "DejaVu Sans"
@@ -56,8 +56,8 @@ n_data_rows = sum(len(rows) for _, rows in GROUPS)
 n_groups = len(GROUPS)
 n_lines = 1 + n_groups + n_data_rows  # header + group headers + data rows
 
-ROW_H = 0.46
-HEADER_H = 0.62
+ROW_H = 0.40
+HEADER_H = 0.60
 TITLE_H = 1.5
 W = 16.0
 table_h = HEADER_H + (n_lines - 1) * ROW_H
@@ -108,10 +108,10 @@ y = top
 # header row
 ax.add_patch(Rectangle((left, y - HEADER_H), right - left, HEADER_H,
              facecolor=HEADER_BG, edgecolor="none", zorder=2))
-ax.text(left + 0.35, y - HEADER_H / 2, "Benchmarks", fontsize=12.5,
+ax.text(left + 0.35, y - HEADER_H / 2, "Benchmarks", fontsize=14,
         fontweight="bold", color=TEXT, va="center", ha="left", fontfamily=SANS, zorder=5)
 for i, c in enumerate(COLS):
-    ax.text(col_center(i), y - HEADER_H / 2, c, fontsize=10.5, fontweight="bold",
+    ax.text(col_center(i), y - HEADER_H / 2, c, fontsize=12, fontweight="bold",
             color=TEXT, va="center", ha="center", fontfamily=SANS, zorder=5)
 ax.plot([left, right], [y - HEADER_H, y - HEADER_H], color=PURPLE, lw=1.6, zorder=5)
 y -= HEADER_H
@@ -121,7 +121,7 @@ for gname, rows in GROUPS:
     # group separator row
     ax.add_patch(Rectangle((left, y - ROW_H), right - left, ROW_H,
                  facecolor=GROUP_BG, edgecolor="none", zorder=2))
-    ax.text((left + right) / 2, y - ROW_H / 2, gname, fontsize=11,
+    ax.text((left + right) / 2, y - ROW_H / 2, gname, fontsize=12.5,
             fontweight="bold", color=PURPLE_DARK, va="center", ha="center",
             fontfamily=MONO, zorder=5)
     y -= ROW_H
@@ -135,7 +135,7 @@ for gname, rows in GROUPS:
                      facecolor=bg, edgecolor="none", zorder=2))
         mcolor = PURPLE_DARK if is_lite else TEXT
         mweight = "bold" if is_lite else "normal"
-        ax.text(left + 0.35, y - ROW_H / 2, mname, fontsize=10.5,
+        ax.text(left + 0.35, y - ROW_H / 2, mname, fontsize=12,
                 fontweight=mweight, color=mcolor, va="center", ha="left",
                 fontfamily=SANS, zorder=5)
         for i, v in enumerate(vals):
@@ -148,7 +148,7 @@ for gname, rows in GROUPS:
             else:
                 col = TEXT
                 wt = "normal"
-            ax.text(col_center(i), y - ROW_H / 2, v, fontsize=10.5, fontweight=wt,
+            ax.text(col_center(i), y - ROW_H / 2, v, fontsize=12, fontweight=wt,
                     color=col, va="center", ha="center", fontfamily=MONO, zorder=5)
         y -= ROW_H
         alt = not alt

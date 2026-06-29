@@ -50,7 +50,7 @@ Comparison across commercial models and open-source deep research agents on eigh
 <img src="figures/benchmark_results.png" width="100%">
 </div>
 
-<sub>Across all 8 benchmarks, LiteResearcher-4B is the best ≤8B agent on 6 — Mirothinker-8B leads on BrowseComp and BrowseComp-ZH. Full numbers are also in the [paper](https://arxiv.org/abs/2604.17931) and [`training/README.md`](training/README.md).</sub>
+Across all 8 benchmarks, LiteResearcher-4B is the best ≤8B agent on 6 — Mirothinker-8B leads on BrowseComp and BrowseComp-ZH. Full numbers are also in the [paper](https://arxiv.org/abs/2604.17931) and [`training/README.md`](training/README.md).
 
 ## Method Overview
 
