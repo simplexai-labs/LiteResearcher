@@ -21,8 +21,17 @@
 
 ## News
 
-- **2026-06** — Released the GRPO + curriculum **training code** ([`training/`](training/)), **Stage-1/2 training data** ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)), the **SFT cold-start checkpoint** ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT)), the **data synthesis pipeline** ([`datagen/`](datagen/)), the **local search/browse environment** ([`environment/`](environment/)), and the **32M-record search corpus** ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus)).
-- **2026-04** — Released **evaluation code**, **project page**, and the **RL model weights** ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)).
+**2026-06**
+- 🚀 Training code released — GRPO + difficulty-aware curriculum ([`training/`](training/))
+- 📊 Training data released — Stage-1 & Stage-2 prompts ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data))
+- 🧊 SFT cold-start checkpoint released ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT))
+- 🛠️ Data synthesis pipeline released ([`datagen/`](datagen/))
+- 🌐 Local search/browse environment released ([`environment/`](environment/))
+- 📚 32M-record search corpus released ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
+
+**2026-04**
+- 🎯 RL model weights released ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B))
+- 📈 Evaluation code & project page released
 
 **LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5.**
 
