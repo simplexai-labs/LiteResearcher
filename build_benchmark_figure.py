@@ -38,16 +38,16 @@ GROUPS = [
 # benchmarks where LiteResearcher is best among <=8B (bold/highlight in its row)
 LITE_BEST = {"GAIA", "HLE", "Frames", "WebWalker", "Seal-0", "Xbench-DS"}
 
-# ---- palette (Tongyi-like purple) ----
-PURPLE      = "#6c4ee0"
-PURPLE_DARK = "#4a2fb0"
+# ---- palette (coral/red, matching compare.png) ----
+PURPLE      = "#c0392b"   # primary accent (red, matches the "Ours" star above)
+PURPLE_DARK = "#962d22"   # darker red for emphasis
 HEADER_BG   = "#ffffff"
-GROUP_BG    = "#efeafc"
-ROW_ALT     = "#f7f5fd"
-HILITE_BG   = "#e9e6fb"  # LiteResearcher row
-TEXT        = "#2a2440"
-MUTED       = "#9a93b3"
-BORDER      = "#e3def2"
+GROUP_BG    = "#fbeae7"   # light coral band for group separators
+ROW_ALT     = "#fdf5f3"   # very light coral for alternating rows
+HILITE_BG   = "#f9ddd8"   # LiteResearcher row highlight
+TEXT        = "#3a2a28"
+MUTED       = "#b39b97"
+BORDER      = "#f0d8d2"
 
 MONO = "DejaVu Sans Mono"
 SANS = "DejaVu Sans"
