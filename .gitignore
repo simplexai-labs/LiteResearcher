@@ -53,3 +53,10 @@ qwen3-4b-rl-cases.zip
 plt_1.py
 reviews_summary.md
 figures/_backup/
+
+# Presentation / marketing assets (not part of the codebase)
+*.pptx
+build_ppt.py
+build_ppt_cn.py
+PPT_OUTLINE.md
+演讲稿_中文.md

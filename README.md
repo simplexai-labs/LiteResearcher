@@ -13,10 +13,16 @@
 [![Trajectories](https://img.shields.io/badge/Trajectories-Live%20Viewer-4f8cff)](https://simplex-ai-inc.github.io/LiteResearcher/cases/)
 [![lev8](https://img.shields.io/badge/Powering-lev8-7c5cff)](https://lev8.com)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-3776ab?logo=python&logoColor=white)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
 **If you like our project, please give us a star ⭐ on GitHub for the latest update.**
 
 </div>
+
+## News
+
+- **2026-06** — Released the GRPO + curriculum **training code** ([`training/`](training/)), **Stage-1/2 training data** ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)), the **SFT cold-start checkpoint** ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT)), the **data synthesis pipeline** ([`datagen/`](datagen/)), the **local search/browse environment** ([`environment/`](environment/)), and the **32M-record search corpus** ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus)).
+- **2026-04** — Released **evaluation code**, **project page**, and the **RL model weights** ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B)).
 
 **LiteResearcher-4B is a 4B deep research agent trained with zero marginal RL API cost, outperforming 30B open-source deep research agents and matching frontier systems such as Claude-4.5-Sonnet and GPT-5.**
 
@@ -32,10 +38,6 @@
 <img src="docs/static/compare.png" width="100%">
 <p><em>Left: Xbench-DeepSearch accuracy vs. model size — our 4B model reaches 78.0%, matching/surpassing 100×+ larger systems. Right: Average rollout time and cost per turn — LiteResearcher is the fastest and cheapest.</em></p>
 </div>
-
-## Built for lev8
-
-LiteResearcher is the engine behind **[lev8](https://lev8.com)**, Simplex AI's parallel agentic search platform — frontier-grade deep research, fast and cheap enough to run hundreds of agents per query. **Explore → [lev8.com](https://lev8.com)**
 
 ## Results
 
@@ -66,17 +68,17 @@ Each trajectory renders 40–170 steps showing the model's `think` → `search` 
 ## Repository Structure
 
 ```
-├── Inference/              # Inference & evaluation (released)
-├── Training/               # RL training — GRPO + curriculum (released)
-├── DataGen/                # Data synthesis (released)
-├── Environment/            # Local search/browse environment (released)
+├── inference/              # Inference & evaluation (released)
+├── training/               # RL training — GRPO + curriculum (released)
+├── datagen/                # Data synthesis (released)
+├── environment/            # Local search/browse environment (released)
 └── docs/                   # Project page
 ```
 
 ## Quick Start — Evaluation
 
 ```bash
-cd Inference
+cd inference
 pip install -r requirements.txt
 cp .env.example .env
 # Edit .env: set MODEL, SERPER_KEY_ID (browser uses Jina Reader by default; set SCRAPEDO_API_KEY only if using BROWSER_PROVIDER=scrapedo)
@@ -88,16 +90,16 @@ bash scripts/start_sglang.sh
 bash scripts/run_all.sh
 ```
 
-See [`Inference/README.md`](Inference/README.md) for detailed configuration and usage.
+See [`inference/README.md`](inference/README.md) for detailed configuration and usage.
 
 ## Quick Start — Training
 
 The full two-stage RL training pipeline (GRPO + TIS + difficulty-aware curriculum)
-is in [`Training/`](Training/), and the training data is hosted on
+is in [`training/`](training/), and the training data is hosted on
 [🤗 `LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data).
 
 ```bash
-cd Training
+cd training
 pip install -e .[sglang]                   # install verl-based training stack
 cp examples/sglang_multiturn/search_browser/tool_backend/.env.example \
    examples/sglang_multiturn/search_browser/tool_backend/.env
@@ -121,7 +123,7 @@ export MODEL_PATH=/path/to/stage1-ckpt/global_step_220
 bash examples/sglang_multiturn/search_browser/stage_2_mix_rag_on_policy_48k.sh
 ```
 
-See [`Training/README.md`](Training/README.md) for the full reproduction recipe
+See [`training/README.md`](training/README.md) for the full reproduction recipe
 (including the SFT cold-start prerequisite, environment variables, and config
 knobs) and the
 [dataset card](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data)
@@ -133,11 +135,33 @@ for the data schema and curriculum design.
 - [x] Project page
 - [x] Model weights — RL ([`LiteResearcher-4B`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B))
 - [x] Model weights — SFT cold-start ([`LiteResearcher-4B-SFT`](https://huggingface.co/simplex-ai-inc/LiteResearcher-4B-SFT), built on [`Qwen3-4B-Thinking-2507`](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507)) **🆕**
-- [x] Local search/browse environment setup ([`Environment/`](Environment/))
+- [x] Local search/browse environment setup ([`environment/`](environment/))
 - [x] Search corpus — 32M records ([`LiteResearcher-Corpus`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Corpus))
-- [x] Training code — GRPO + curriculum RL ([`Training/`](Training/))
+- [x] Training code — GRPO + curriculum RL ([`training/`](training/))
 - [x] Training data — Stage-1 & Stage-2 prompts ([`LiteResearcher-Data`](https://huggingface.co/datasets/simplex-ai-inc/LiteResearcher-Data))
-- [x] Data synthesis pipeline ([`DataGen/`](DataGen/))
+- [x] Data synthesis pipeline ([`datagen/`](datagen/))
+
+## Acknowledgements
+
+LiteResearcher's training stack is built on [verl](https://github.com/volcengine/verl),
+ByteDance's RL training library, which we fork and extend with the multi-turn
+search/browse agent loop, difficulty-aware curriculum, and local-tool reward
+pipeline. We also build on [SGLang](https://github.com/sgl-project/sglang) for
+rollout serving, [Qwen3](https://github.com/QwenLM/Qwen3) as the base model, and
+[Milvus](https://milvus.io/) + [BGE-M3](https://huggingface.co/BAAI/bge-m3) for
+the local search environment. We thank these projects and their communities.
+
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for
+development setup, pull-request guidelines, and our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+## lev8
+
+LiteResearcher is the engine behind **[lev8](https://lev8.com)**, Simplex AI's
+parallel agentic search platform — frontier-grade deep research, fast and cheap
+enough to run hundreds of agents per query. **Explore → [lev8.com](https://lev8.com)**
 
 ## Citation
 
@@ -152,4 +176,5 @@ for the data schema and curriculum design.
 
 ## License
 
-Apache 2.0
+Released under the [Apache License 2.0](LICENSE).
+
