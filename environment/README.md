@@ -3,7 +3,7 @@
 A lightweight, large-scale retrieval engine for deep-research / RAG agents, built on
 [Milvus](https://milvus.io/) + [BGE-M3](https://huggingface.co/BAAI/bge-m3) hybrid search.
 
-This is the **local tool environment** for [LiteResearcher](https://github.com/simplex-ai-inc/LiteResearcher):
+This is the **local tool environment** for [LiteResearcher](https://github.com/simplexai-labs/LiteResearcher):
 a stable, fully-local search + browse stack built from ~32M real webpages that replaces
 live-web APIs during RL training (10–46× speedup, zero marginal tool cost).
 
